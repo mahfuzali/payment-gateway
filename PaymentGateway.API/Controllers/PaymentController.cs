@@ -15,12 +15,12 @@ namespace PaymentGateway.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CardController : ControllerBase
+    public class PaymentController : ControllerBase
     {
-        private readonly ICardRepository _cardRepository;
+        private readonly IPaymentRepository _cardRepository;
         private readonly IMapper _mapper;
 
-        public CardController(ICardRepository cardRepository, IMapper mapper) {
+        public PaymentController(IPaymentRepository cardRepository, IMapper mapper) {
             _cardRepository = cardRepository ??
                 throw new ArgumentNullException(nameof(cardRepository));
             _mapper = mapper ??
@@ -37,11 +37,10 @@ namespace PaymentGateway.API.Controllers
         //}
 
         // GET: api/card/5
-        [HttpGet]
-        [Route("{number}", Name = "GetPayment")]
-        public async Task<ActionResult<Card>> GetPayment(string number)
+        [HttpGet("card/{number}", Name = "GetCard")]
+        public async Task<ActionResult<Card>> GetCard(string number)
         {
-            var cardEntity = await _cardRepository.GetPayment(number);
+            var cardEntity = await _cardRepository.GetCard(number);
 
             if (cardEntity == null)
             {
@@ -51,6 +50,20 @@ namespace PaymentGateway.API.Controllers
             return Ok(_mapper.Map<Models.CardDto>(cardEntity));
         }
 
+        [HttpGet("transaction/{transactionId}", Name = "GetPayment")]
+        public async Task<ActionResult<Card>> GetPayment(Guid transactionId)
+        {
+            var paymentEntity = await _cardRepository.GetPayment(transactionId);
+
+            if (paymentEntity == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_mapper.Map<Models.PaymentDto>(paymentEntity));
+        }
+
+
         // POST: api/card
         [HttpPost]
         public async Task<ActionResult<Card>> PostCardPayment(CardDto card)
@@ -59,7 +72,7 @@ namespace PaymentGateway.API.Controllers
             _cardRepository.MakeCardPayment(cardEntity);
             await _cardRepository.SaveChangesAsync();
 
-            return CreatedAtRoute("GetPayment", 
+            return CreatedAtRoute("GetCard", 
                 new { number = cardEntity.Number }, 
                 cardEntity);
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using PaymentGateway.API.Entities;
 using PaymentGateway.API.Models;
@@ -12,16 +13,16 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.API.Services
 {
-    public class CardRepository : ICardRepository, IDisposable
+    public class PaymentRepository : IPaymentRepository, IDisposable
     {
         private ApplicationDbContext _context;
         private CancellationTokenSource _cancellationTokenSource;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public CardRepository(ApplicationDbContext context /*, IHttpClientFactory httpClientFactory*/) {
+        public PaymentRepository(ApplicationDbContext context, IHttpClientFactory httpClientFactory) {
             _context = context ?? throw new ArgumentNullException(nameof(context));
-            //_httpClientFactory = httpClientFactory ??
-            //    throw new ArgumentNullException(nameof(httpClientFactory));
+            _httpClientFactory = httpClientFactory ??
+                throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
         public async Task<IEnumerable<Card>> GetAllCardPayments()
@@ -29,7 +30,7 @@ namespace PaymentGateway.API.Services
             return await _context.Cards.OrderBy(o => o.Number).ToListAsync();
         }
 
-        public async Task<Card> GetPayment(string cardNumber)
+        public async Task<Card> GetCard(string cardNumber)
         {
             if (cardNumber.Length == 0 || cardNumber == null)
             {
@@ -37,6 +38,17 @@ namespace PaymentGateway.API.Services
             }
 
             return await _context.Cards.Where(c => c.Number == cardNumber).FirstOrDefaultAsync();
+        }
+
+        public async Task<Payment> GetPayment(Guid paymentId)
+        {
+            if(paymentId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(paymentId));
+            }
+
+            //return await _context.Payments.Where(p => p.Id == paymentId).FirstOrDefaultAsync();
+            return await _context.Payments.Include(c => c.Card).FirstOrDefaultAsync(p => p.Id == paymentId);
         }
 
         public void MakeCardPayment(Card card)
@@ -49,26 +61,31 @@ namespace PaymentGateway.API.Services
             _context.Cards.Add(card);
         }
 
-        //public async Task<BankResponse> GetBankResponse(string number, int expiryMonth, int expiryYear, double amount, string currency, int cvv)
-        //{
-        //    var httpClient = _httpClientFactory.CreateClient();
+        public async Task<BankResponse> GetBankResponse(string number, int expiryMonth, int expiryYear, double amount, string currency, int cvv)
+        {
+            var httpClient = _httpClientFactory.CreateClient();
 
-        //    var response = await httpClient
-        //                .GetAsync($"http://localhost:5001/api/FakeBank?number={number}&expiryMonth={expiryMonth}&expiryYear={expiryYear}&amount={amount}&currency={currency}&cvv={cvv}");
+            var response = await httpClient
+                        .GetAsync($"http://localhost:5001/api/FakeBank?number={number}&expiryMonth={expiryMonth}&expiryYear={expiryYear}&amount={amount}&currency={currency}&cvv={cvv}");
 
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        return JsonConvert.DeserializeObject<BankResponse>(
-        //            await response.Content.ReadAsStringAsync());
-        //    }
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<BankResponse>(
+                    await response.Content.ReadAsStringAsync());
+            }
 
-        //    return null;
-        //}
+            return null;
+        }
 
-        //public void StorePayment(Payment payment)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public void StorePayment(Payment payment)
+        {
+            if (payment == null)
+            {
+                throw new ArgumentNullException(nameof(payment));
+            }
+
+            _context.Payments.Add(payment);
+        }
 
         public async Task<bool> SaveChangesAsync()
         {
@@ -97,5 +114,6 @@ namespace PaymentGateway.API.Services
                 }
             }
         }
+
     }
 }

@@ -38,9 +38,11 @@ namespace PaymentGateway.API
 
             services.AddScoped<DbContext, ApplicationDbContext>();
 
-            services.AddScoped<ICardRepository, CardRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
 
             services.AddControllers();
+
+            services.AddHttpClient();
 
             services.AddSwaggerGen(c =>
             {

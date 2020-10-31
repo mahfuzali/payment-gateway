@@ -24,6 +24,9 @@ namespace PaymentGateway.API.Persistence
             
             modelBuilder.Entity<Payment>().HasKey(c => c.Id);
 
+            modelBuilder.Entity<Payment>().HasOne(c => c.Card);
+            //modelBuilder.Entity<Payment>().HasOne(c => c.Card).WithMany(p => p.Payments);
+
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(modelBuilder);

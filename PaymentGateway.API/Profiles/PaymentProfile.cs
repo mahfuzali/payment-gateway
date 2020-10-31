@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.API.Profiles
 {
-    public class CardsProfile : Profile
+    public class PaymentProfile : Profile
     {
-        public CardsProfile() {
+        public PaymentProfile() {
 
             CreateMap<Entities.Card, Models.CardDto>()
                 .ForMember(
@@ -23,6 +23,13 @@ namespace PaymentGateway.API.Profiles
                 .ForMember(
                     dest => dest.ExpiryYear,
                     opt => opt.MapFrom(src => src.Expiry.ExpiryDateArray()[1]));
+
+
+            CreateMap<Entities.Payment, Models.PaymentDto>()
+                .ForMember(
+                    dest => dest.Card,
+                    opt => opt.MapFrom(src => src.Card));
+
         }
     }
 }
