@@ -28,16 +28,28 @@ namespace PaymentGateway.API.Tests.Repositories
             return builder.Options;
         }
 
-        protected PaymentRepository GetRepository()
+        //protected PaymentRepository GetRepository()
+        //{
+        //    var options = CreateNewContextOptions();
+
+        //    _dbContext = new ApplicationDbContext(options);
+
+        //    var mockHttpClient = new Mock<IHttpClientFactory>();
+        //    //var mockConfiguration = new Mock<IConfiguration>();
+
+        //    return new PaymentRepository(_dbContext, mockHttpClient.Object /*, mockConfiguration.Object*/ );
+        //}
+
+        protected PaymentRepository GetRepository(IHttpClientFactory httpClientFactory)
         {
             var options = CreateNewContextOptions();
 
             _dbContext = new ApplicationDbContext(options);
 
-            var mockHttpClient = new Mock<IHttpClientFactory>();
-            var mockConfiguration = new Mock<IConfiguration>();
+            //var mockHttpClient = new Mock<IHttpClientFactory>();
+            //var mockConfiguration = new Mock<IConfiguration>();
 
-            return new PaymentRepository(_dbContext, mockHttpClient.Object, mockConfiguration.Object);
+            return new PaymentRepository(_dbContext, httpClientFactory);
         }
     }
 }

@@ -1,6 +1,14 @@
-﻿using PaymentGateway.API.Entities;
+﻿using FluentAssertions;
+using Moq;
+using Newtonsoft.Json;
+using NSubstitute;
+using PaymentGateway.API.Entities;
+using PaymentGateway.API.Models;
+using PaymentGateway.API.Services;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -11,8 +19,7 @@ namespace PaymentGateway.API.Tests.Repositories
     {
         [Fact]
         public async Task Add_CardAsync() {
-            var repository = GetRepository();
-            
+            // Arrange
             Card card = new Card()
             {
                 Number = "0123456789101112",
@@ -23,17 +30,21 @@ namespace PaymentGateway.API.Tests.Repositories
                 CVV = "765"
             };
 
-            repository.StoreCard(card);
-            var fetchCard = await repository.GetCard(card.Number); 
+            var mockHttpClient = new Mock<IHttpClientFactory>();
+            var repository = GetRepository(mockHttpClient.Object);
 
+            // Act
+            repository.StoreCard(card);
+            var fetchCard = await repository.GetCard(card.Number);
+
+            // Assert
             Assert.Equal(card, fetchCard);
         }
 
         [Fact]
         public async Task Add_PaymentAsync()
         {
-            var repository = GetRepository();
-
+            // Arrange
             Card card = new Card()
             {
                 Number = "0123456789101112",
@@ -43,6 +54,9 @@ namespace PaymentGateway.API.Tests.Repositories
                 Currency = "GBP",
                 CVV = "765"
             };
+
+            var mockHttpClient = new Mock<IHttpClientFactory>();
+            var repository = GetRepository(mockHttpClient.Object);
 
             Payment payment = new Payment()
             {
@@ -51,11 +65,45 @@ namespace PaymentGateway.API.Tests.Repositories
                 Card = card
             };
 
+            // Act
             repository.StorePayment(payment);
-            var fetchpayment = await repository.GetPayment(payment.Id);
+            var fetchedPayment = await repository.GetPayment(payment.Id);
 
-            Assert.Equal(payment, fetchpayment);
+            // Assert
+            Assert.Equal(payment, fetchedPayment);
         }
 
+        [Fact]
+        public async Task Get_BankResponse_With_Payment_Status()
+        {
+            // Arrange
+            Card card = new Card()
+            {
+                Number = "0123456789101112",
+                ExpiryMonth = 01,
+                ExpiryYear = 2025,
+                Amount = 150.75m,
+                Currency = "GBP",
+                CVV = "765"
+            };
+
+            var httpClientFactoryMock = Substitute.For<IHttpClientFactory>();
+            var url = "http://localhost:5001/api/FakeBank";
+            var fakeHttpMessageHandler = new FakeBankHttpMessageHandler(new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(JsonConvert.SerializeObject(card), Encoding.UTF8, "application/json")
+            });
+            var fakeHttpClient = new HttpClient(fakeHttpMessageHandler);
+
+            httpClientFactoryMock.CreateClient().Returns(fakeHttpClient);
+
+            // Act
+            var service = GetRepository(httpClientFactoryMock);
+            var result = await service.GetBankResponse(card, url);
+
+            // Assert
+            result.Should().BeOfType<BankResponse>().And.NotBeNull();
+        }
     }
 }

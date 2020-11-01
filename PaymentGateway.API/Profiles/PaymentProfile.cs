@@ -39,7 +39,7 @@ namespace PaymentGateway.API.Profiles
             CreateMap<Entities.Payment, Models.PaymentDto>()
                 .ForMember(
                     dest => dest.Card,
-                    opt => opt.MapFrom(src => src.Card));
+                    opt => opt.MapFrom(src => src.Card)).ReverseMap();
 
         }
     }

@@ -21,13 +21,11 @@ namespace PaymentGateway.API.Services
         private ApplicationDbContext _context;
         private CancellationTokenSource _cancellationTokenSource;
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IConfiguration _config;
 
-        public PaymentRepository(ApplicationDbContext context, IHttpClientFactory httpClientFactory, IConfiguration config) {
+        public PaymentRepository(ApplicationDbContext context, IHttpClientFactory httpClientFactory) {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _httpClientFactory = httpClientFactory ??
                                 throw new ArgumentNullException(nameof(httpClientFactory));
-            _config = config ?? throw new ArgumentNullException(nameof(config));
         }
 
         public async Task<IEnumerable<Card>> GetAllCardPayments()
@@ -66,12 +64,8 @@ namespace PaymentGateway.API.Services
             _context.SaveChangesAsync();
         }
 
-        public async Task<BankResponse> GetBankResponse(Card card)
+        public async Task<BankResponse> GetBankResponse(Card card, string bankEndPointUrl)
         {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-            };
             var cardJson = new StringContent(
                 JsonConvert.SerializeObject(card),
                 Encoding.UTF8,
@@ -79,10 +73,9 @@ namespace PaymentGateway.API.Services
 
             var httpClient = _httpClientFactory.CreateClient();
 
-            var bankEndpoint = _config.GetValue<string>("Endpoints:Bank"); 
+            //var bankEndpoint = _config.GetValue<string>("Endpoints:Bank"); 
 
-            var response =
-                    await httpClient.PostAsync(bankEndpoint, cardJson);
+            var response = await httpClient.PostAsync(bankEndPointUrl, cardJson);
 
             if (response.IsSuccessStatusCode)
             {

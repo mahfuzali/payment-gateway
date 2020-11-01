@@ -29,7 +29,6 @@ namespace PaymentGateway.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -44,36 +43,6 @@ namespace PaymentGateway.API
 
             services.AddControllers();
 
-            //services.AddControllers(setupAction =>
-            //{
-            //    setupAction.ReturnHttpNotAcceptable = true;
-
-            //}).AddNewtonsoftJson(setupAction =>
-            //{
-            //    setupAction.SerializerSettings.ContractResolver =
-            //        new CamelCasePropertyNamesContractResolver();
-            //}).ConfigureApiBehaviorOptions(setupAction =>
-            //{
-            //    setupAction.InvalidModelStateResponseFactory = context =>
-            //    {
-            //        var problemDetails = new ValidationProblemDetails(context.ModelState)
-            //        {
-            //            Type = "https://library.com/modelvalidationproblem",
-            //            Title = "One or more model validation errors occurred.",
-            //            Status = StatusCodes.Status422UnprocessableEntity,
-            //            Detail = "See the errors property for details.",
-            //            Instance = context.HttpContext.Request.Path
-            //        };
-
-            //        problemDetails.Extensions.Add("traceId", context.HttpContext.TraceIdentifier);
-
-            //        return new UnprocessableEntityObjectResult(problemDetails)
-            //        {
-            //            ContentTypes = { "application/problem+json" }
-            //        };
-            //    };
-            //}).AddXmlDataContractSerializerFormatters();
-
             services.AddHttpClient();
 
             services.AddSwaggerGen(c =>
@@ -82,7 +51,6 @@ namespace PaymentGateway.API
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseSwagger();

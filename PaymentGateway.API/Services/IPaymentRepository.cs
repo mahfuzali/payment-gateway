@@ -15,7 +15,7 @@ namespace PaymentGateway.API.Services
 
         void StoreCard(Card card);
 
-        Task<BankResponse> GetBankResponse(Card card);
+        Task<BankResponse> GetBankResponse(Card card, string bankEndPointUrl);
 
         Task<Payment> GetPayment(Guid paymentId);
 
