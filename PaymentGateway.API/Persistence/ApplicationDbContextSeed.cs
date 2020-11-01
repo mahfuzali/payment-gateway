@@ -15,9 +15,9 @@ namespace PaymentGateway.API.Persistence
                 Number = "0123456789101112",
                 ExpiryMonth = 01,
                 ExpiryYear = 2025,
-                Amount = 100,
+                Amount = 150.75m,
                 Currency = "GBP",
-                CVV = 765
+                CVV = "765"
             };
 
             Payment payment = new Payment()

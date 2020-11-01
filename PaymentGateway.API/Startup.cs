@@ -15,6 +15,8 @@ using Microsoft.OpenApi.Models;
 using PaymentGateway.API.Persistence;
 using AutoMapper;
 using PaymentGateway.API.Services;
+using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Http;
 
 namespace PaymentGateway.API
 {
@@ -41,6 +43,36 @@ namespace PaymentGateway.API
             services.AddScoped<IPaymentRepository, PaymentRepository>();
 
             services.AddControllers();
+
+            //services.AddControllers(setupAction =>
+            //{
+            //    setupAction.ReturnHttpNotAcceptable = true;
+
+            //}).AddNewtonsoftJson(setupAction =>
+            //{
+            //    setupAction.SerializerSettings.ContractResolver =
+            //        new CamelCasePropertyNamesContractResolver();
+            //}).ConfigureApiBehaviorOptions(setupAction =>
+            //{
+            //    setupAction.InvalidModelStateResponseFactory = context =>
+            //    {
+            //        var problemDetails = new ValidationProblemDetails(context.ModelState)
+            //        {
+            //            Type = "https://library.com/modelvalidationproblem",
+            //            Title = "One or more model validation errors occurred.",
+            //            Status = StatusCodes.Status422UnprocessableEntity,
+            //            Detail = "See the errors property for details.",
+            //            Instance = context.HttpContext.Request.Path
+            //        };
+
+            //        problemDetails.Extensions.Add("traceId", context.HttpContext.TraceIdentifier);
+
+            //        return new UnprocessableEntityObjectResult(problemDetails)
+            //        {
+            //            ContentTypes = { "application/problem+json" }
+            //        };
+            //    };
+            //}).AddXmlDataContractSerializerFormatters();
 
             services.AddHttpClient();
 

@@ -9,6 +9,6 @@ namespace PaymentGateway.API.Models
     {
         public Guid Id { get; set; }
         public string Status { get; set; }
-        public CardDto Card { get; set; }
+        public CardViewModel Card { get; set; }
     }
 }

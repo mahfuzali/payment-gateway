@@ -47,7 +47,8 @@ namespace PaymentGateway.API.Controllers
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<Models.CardDto>(cardEntity));
+            // return Ok(_mapper.Map<Models.CardDto>(cardEntity));
+            return Ok(_mapper.Map<Models.CardViewModel>(cardEntity));
         }
 
         [HttpGet("transaction/{transactionId}", Name = "GetPayment")]
