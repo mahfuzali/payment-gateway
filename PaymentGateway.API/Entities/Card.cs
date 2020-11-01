@@ -8,6 +8,7 @@ namespace PaymentGateway.API.Entities
 {
     public class Card
     {
+        [Required]
         public string Number { get; set; }
 
         [Range(1, 12)]
@@ -18,10 +19,13 @@ namespace PaymentGateway.API.Entities
         [Required]
         public int ExpiryYear { get; set; }
 
+        [Required]
         public decimal Amount { get; set; }
 
+        [Required]
         public string Currency { get; set; }
 
+        [Required]
         public string CVV { get; set; }
 
     }
