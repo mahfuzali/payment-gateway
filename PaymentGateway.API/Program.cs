@@ -13,6 +13,7 @@ using PaymentGateway.API.Persistence;
 
 namespace PaymentGateway.API
 {
+#pragma warning disable CS1591
     public class Program
     {
         public async static Task Main(string[] args)
@@ -59,4 +60,5 @@ namespace PaymentGateway.API
                     webBuilder.UseStartup<Startup>();
                 });
     }
+#pragma warning restore CS1591
 }
