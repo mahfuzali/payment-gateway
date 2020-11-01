@@ -13,48 +13,25 @@ using PaymentGateway.API.Services;
 
 namespace PaymentGateway.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/payment")]
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly IPaymentRepository _cardRepository;
+        private readonly IPaymentRepository _paymentRepository;
         private readonly IMapper _mapper;
 
         public PaymentController(IPaymentRepository cardRepository, IMapper mapper) {
-            _cardRepository = cardRepository ??
+            _paymentRepository = cardRepository ??
                 throw new ArgumentNullException(nameof(cardRepository));
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
         }
 
-
-        // GET: api/card
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Card>>> GetPayments()
-        //{
-        //    var cardRepo = _cardRepository.GetAllCardPayments();
-        //    return await _context.Cards.ToListAsync();
-        //}
-
-        // GET: api/card/5
-        [HttpGet("card/{number}", Name = "GetCard")]
-        public async Task<ActionResult<Card>> GetCard(string number)
-        {
-            var cardEntity = await _cardRepository.GetCard(number);
-
-            if (cardEntity == null)
-            {
-                return NotFound();
-            }
-
-            // return Ok(_mapper.Map<Models.CardDto>(cardEntity));
-            return Ok(_mapper.Map<Models.CardViewModel>(cardEntity));
-        }
-
-        [HttpGet("transaction/{transactionId}", Name = "GetPayment")]
+        // GET: api/payment/8b51ea22-adbf-46f3-9f90-cf9d9d534d45
+        [HttpGet("{transactionId}", Name = "GetPayment")]
         public async Task<ActionResult<Card>> GetPayment(Guid transactionId)
         {
-            var paymentEntity = await _cardRepository.GetPayment(transactionId);
+            var paymentEntity = await _paymentRepository.GetPayment(transactionId);
 
             if (paymentEntity == null)
             {
@@ -65,17 +42,24 @@ namespace PaymentGateway.API.Controllers
         }
 
 
-        // POST: api/card
+        // POST: api/payment
         [HttpPost]
-        public async Task<ActionResult<Card>> PostCardPayment(CardDto card)
+        public async Task<ActionResult<Payment>> PostCardPayment(CardDto card)
         {
             var cardEntity = _mapper.Map<Entities.Card>(card);
-            _cardRepository.MakeCardPayment(cardEntity);
-            await _cardRepository.SaveChangesAsync();
+            var bankResponse = await _paymentRepository.GetBankResponse(cardEntity);
 
-            return CreatedAtRoute("GetCard", 
-                new { number = cardEntity.Number }, 
-                cardEntity);
+            _paymentRepository.StoreCard(cardEntity);
+
+            Payment paymentEntity = new Payment() { 
+                Id = bankResponse.Id,
+                Status = bankResponse.Status,
+                Card = cardEntity
+            };
+
+            _paymentRepository.StorePayment(paymentEntity);
+
+            return Ok(bankResponse);
         }
     }
 }

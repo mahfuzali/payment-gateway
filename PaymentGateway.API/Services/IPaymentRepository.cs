@@ -13,9 +13,9 @@ namespace PaymentGateway.API.Services
 
         Task<Card> GetCard(string cardNumber);
 
-        void MakeCardPayment(Card card);
+        void StoreCard(Card card);
 
-        Task<BankResponse> GetBankResponse(string number, int expiryMonth, int expiryYear, double amount, string currency, int cvv);
+        Task<BankResponse> GetBankResponse(Card card);
 
         Task<Payment> GetPayment(Guid paymentId);
 

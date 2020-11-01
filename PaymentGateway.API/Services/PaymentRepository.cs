@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using PaymentGateway.API.Entities;
 using PaymentGateway.API.Models;
@@ -8,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -47,11 +48,10 @@ namespace PaymentGateway.API.Services
                 throw new ArgumentNullException(nameof(paymentId));
             }
 
-            //return await _context.Payments.Where(p => p.Id == paymentId).FirstOrDefaultAsync();
             return await _context.Payments.Include(c => c.Card).FirstOrDefaultAsync(p => p.Id == paymentId);
         }
 
-        public void MakeCardPayment(Card card)
+        public void StoreCard(Card card)
         {
             if (card == null)
             {
@@ -59,14 +59,24 @@ namespace PaymentGateway.API.Services
             }
 
             _context.Cards.Add(card);
+            _context.SaveChangesAsync();
         }
 
-        public async Task<BankResponse> GetBankResponse(string number, int expiryMonth, int expiryYear, double amount, string currency, int cvv)
+        public async Task<BankResponse> GetBankResponse(Card card)
         {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+            };
+            var cardJson = new StringContent(
+                JsonConvert.SerializeObject(card),
+                Encoding.UTF8,
+                "application/json");
+
             var httpClient = _httpClientFactory.CreateClient();
 
-            var response = await httpClient
-                        .GetAsync($"http://localhost:5001/api/FakeBank?number={number}&expiryMonth={expiryMonth}&expiryYear={expiryYear}&amount={amount}&currency={currency}&cvv={cvv}");
+            var response =
+                await httpClient.PostAsync("http://localhost:5001/api/FakeBank", cardJson);
 
             if (response.IsSuccessStatusCode)
             {
@@ -85,6 +95,7 @@ namespace PaymentGateway.API.Services
             }
 
             _context.Payments.Add(payment);
+            _context.SaveChangesAsync();
         }
 
         public async Task<bool> SaveChangesAsync()

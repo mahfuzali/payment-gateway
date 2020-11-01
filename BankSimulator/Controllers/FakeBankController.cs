@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BankSimulator.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,13 +13,13 @@ namespace BankSimulator.Controllers
     public class FakeBankController : ControllerBase
     {
 
-        [HttpGet]
-        public async Task<IActionResult> Withdraw(string number, int expiryMonth, int expiryYear, double amount, string currency, int cvv)
+        [HttpPost]
+        public async Task<IActionResult> Withdraw(Card card)
         {
-            double balance = 1000;
+            decimal balance = 1000.00m;
             string status = "successful";
 
-            if (balance - amount < 0) {
+            if (balance - card.Amount < 0) {
                 status = "declined";
             }
 
