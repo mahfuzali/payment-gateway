@@ -26,6 +26,8 @@ To run this project, navigate to the project directory and run the following com
 * Open the browser: `http://localhost:5050`
 
 
+### Note: In order for payment gateway to run, bank simulator also needs to be run at the same time.
+
 ### Future improvement
 * Obtaining application metrics using tool such as, Prometheus and Grafana
 * Docker containerization and kubernetes orchestration
