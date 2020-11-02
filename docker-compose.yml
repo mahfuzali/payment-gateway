@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+
+  fakebank:
+    image: 'fakebankappimage'
+    container_name: 'fakebankapp'
+    build:
+      context: ./BankSimulator
+      dockerfile: Dockerfile
+    ports:
+     - "5050:5050"
+    networks:
+        - paymentapp-network
+
+  paymentgateway:
+    image: 'paymentappimage'
+    container_name: 'paymentapp'
+    build:
+      context: ./PaymentGateway.API
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+        - "fakebank"
+    networks:
+        - paymentapp-network
+
+networks:
+  paymentapp-network:
+    driver: bridge
+
+#networks:
+#  my-network:
+#    external: true
