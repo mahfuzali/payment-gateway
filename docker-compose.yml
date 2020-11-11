@@ -1,0 +1,24 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  banksimulator:
+    image: banksimulator
+    build:
+      context: .
+      dockerfile: BankSimulator/Dockerfile
+    ports:
+      - 5050:5050
+    environment:
+      - ASPNETCORE_URLS=http://+:5050
+  
+  paymentgatewayapi:
+    image: paymentgatewayapi
+    build:
+      context: .
+      dockerfile: PaymentGateway.API/Dockerfile
+    ports:
+      - 5000:5000
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
