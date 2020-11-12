@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PaymentGateway.APInfrastructureI.Persistence
+namespace PaymentGateway.Infrastructure.Persistence
 {
     public static class ApplicationDbContextSeed
     {
