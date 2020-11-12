@@ -12,6 +12,8 @@ using System.IO;
 using PaymentGateway.Infrastructure.Services;
 using PaymentGateway.Application.Interfaces;
 using PaymentGateway.Infrastructure.Persistence;
+using PaymentGateway.Application;
+using PaymentGateway.Infrastructure;
 
 namespace PaymentGateway.API
 {
@@ -26,15 +28,9 @@ namespace PaymentGateway.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddApplication();
 
-            services.AddDbContext<ApplicationDbContext>(opt =>
-                opt.UseInMemoryDatabase("PaymentDb")
-            );
-
-            services.AddScoped<DbContext, ApplicationDbContext>();
-
-            services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddInfrastructure(Configuration);
 
             services.AddControllers();
 
