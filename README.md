@@ -1,4 +1,4 @@
-# payment-gateway
+# Payment Gateway
 
 ## About 
 An API based application that will allow a merchant to offer a way for their shoppers to pay for their product.
@@ -27,6 +27,12 @@ To run this project, navigate to the project directory and run the following com
 
 
 ### Note: In order for payment gateway to run, bank simulator also needs to be run at the same time.
+
+### Docker implementation
+To run the application on Docker, run the following commands:
+
+`docker-compose build`
+`docker-compose up`
 
 ### Future improvement
 * Obtaining application metrics using tool such as, Prometheus and Grafana
