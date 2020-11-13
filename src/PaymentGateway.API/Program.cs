@@ -42,8 +42,6 @@ namespace PaymentGateway.API
                 }
             }
 
-            //host.MigrateDatabaseAsync<ApplicationDbContext>();
-
             await host.RunAsync();
         }
 

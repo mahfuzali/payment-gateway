@@ -14,17 +14,13 @@ namespace PaymentGateway.API.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        //private readonly IPaymentRepository _paymentRepository;
         private readonly IRepositoryWrapper _repositoryWrapper;
         private readonly IMapper _mapper;
         private readonly ILogger<PaymentController> _logger;
         private readonly IConfiguration _config;
 
-        public PaymentController(/*IPaymentRepository cardRepository,*/ IRepositoryWrapper repositoryWrapper, IMapper mapper, 
+        public PaymentController(IRepositoryWrapper repositoryWrapper, IMapper mapper, 
                                                 ILogger<PaymentController> logger, IConfiguration config) {
-            //_paymentRepository = cardRepository ??
-            //    throw new ArgumentNullException(nameof(cardRepository));
-
             _repositoryWrapper = repositoryWrapper ??
                 throw new ArgumentNullException(nameof(repositoryWrapper));
             _mapper = mapper ??
@@ -54,7 +50,7 @@ namespace PaymentGateway.API.Controllers
         public async Task<IActionResult> GetPayment(Guid transactionId)
         {
             _logger.LogInformation("Retrieving previous transation with id {transactionId}", transactionId);
-            //var paymentEntity = await _paymentRepository.GetPayment(transactionId);
+
             var paymentEntity = await _repositoryWrapper.PaymentGateways.GetPayment(transactionId);
 
             if (paymentEntity == null)
@@ -97,7 +93,7 @@ namespace PaymentGateway.API.Controllers
             _logger.LogInformation("Making a payment with card ending with {cardLastDigits}", cardLastDigits);
             
             var bankEndpoint = _config.GetValue<string>("Endpoints:Bank");
-            //var bankResponse = await _paymentRepository.GetBankResponse(cardEntity, bankEndpoint);
+
             var bankResponse = await _repositoryWrapper.PaymentGateways.GetBankResponse(cardEntity, bankEndpoint);
 
             if (bankResponse == null)
@@ -106,7 +102,6 @@ namespace PaymentGateway.API.Controllers
                 return NotFound();
             }
 
-            //_paymentRepository.StoreCard(cardEntity);
             _repositoryWrapper.Cards.Add(cardEntity);
 
             Payment paymentEntity = new Payment() { 
@@ -115,7 +110,6 @@ namespace PaymentGateway.API.Controllers
                 Card = cardEntity
             };
 
-            //_paymentRepository.StorePayment(paymentEntity);
             _repositoryWrapper.PaymentGateways.Add(paymentEntity);
 
             return Ok(bankResponse);

@@ -16,10 +16,8 @@ namespace PaymentGateway.Infrastructure
             services.AddDbContext<ApplicationDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
                         b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
-            //services.AddScoped<DbContext, ApplicationDbContext>();
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
-            //services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
             return services;

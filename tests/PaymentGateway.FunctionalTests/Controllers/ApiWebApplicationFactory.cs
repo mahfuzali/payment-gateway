@@ -31,7 +31,8 @@ namespace PaymentGateway.FunctionalTests.Controllers
                     options.UseInternalServiceProvider(serviceProvider);
                 });
 
-                services.AddTransient<IPaymentRepository, PaymentRepository>();
+                //services.AddTransient<IPaymentRepository, PaymentRepository>();
+                services.AddTransient<IRepositoryWrapper, RepositoryWrapper>();
 
                 // Build the service provider.
                 var sp = services.BuildServiceProvider();
@@ -47,7 +48,7 @@ namespace PaymentGateway.FunctionalTests.Controllers
                         .GetRequiredService<ILogger<ApiWebApplicationFactory<TStartup>>>();
 
                     // Ensure the database is created.
-                    context.Database.EnsureCreated();
+                    //context.Database.EnsureCreated();
 
                     try
                     {
