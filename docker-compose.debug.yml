@@ -5,6 +5,7 @@ version: '3.4'
 services:
   banksimulator:
     image: banksimulator
+    container_name: 'banksimulator_container'
     build:
       context: .
       dockerfile: src/BankSimulator/Dockerfile
@@ -18,13 +19,31 @@ services:
 
   paymentgatewayapi:
     image: paymentgatewayapi
+    container_name: 'paymentgatewayapi_container'
     build:
       context: .
       dockerfile: src/PaymentGateway.API/Dockerfile
     ports:
       - 5000:80
+    depends_on:
+      - postgresdb
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
+
+  postgresdb: # this is used as the host in your connection string 
+    image: postgres
+    container_name: 'postgres_container'
+    environment:
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=payment
+    volumes:
+      - pgdata:/var/lib/postgresql/data # this is where your data persists in the container
+    ports:
+      - 5432:5432 # use this port in your connection string
+
+volumes:
+  pgdata:
