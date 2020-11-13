@@ -33,8 +33,10 @@ namespace PaymentGateway.IntegrationTests.Repositories
             var repository = GetRepository(mockHttpClient.Object);
 
             // Act
-            repository.StoreCard(card);
-            var fetchCard = await repository.GetCard(card.Number);
+            //repository.StoreCard(card);
+            //var fetchCard = await repository.GetCard(card.Number);
+            repository.Cards.Add(card);
+            var fetchCard = await repository.Cards.GetCard(card.Number);
 
             // Assert
             Assert.Equal(card, fetchCard);
@@ -65,8 +67,10 @@ namespace PaymentGateway.IntegrationTests.Repositories
             };
 
             // Act
-            repository.StorePayment(payment);
-            var fetchedPayment = await repository.GetPayment(payment.Id);
+            //repository.StorePayment(payment);
+            //var fetchedPayment = await repository.GetPayment(payment.Id);
+            repository.PaymentGateways.Add(payment);
+            var fetchedPayment = await repository.PaymentGateways.GetPayment(payment.Id);
 
             // Assert
             Assert.Equal(payment, fetchedPayment);
@@ -99,7 +103,8 @@ namespace PaymentGateway.IntegrationTests.Repositories
 
             // Act
             var service = GetRepository(httpClientFactoryMock);
-            var result = await service.GetBankResponse(card, url);
+            //var result = await service.GetBankResponse(card, url);
+            var result = await service.PaymentGateways.GetBankResponse(card, url);
 
             // Assert
             result.Should().BeOfType<BankResponse>().And.NotBeNull();
