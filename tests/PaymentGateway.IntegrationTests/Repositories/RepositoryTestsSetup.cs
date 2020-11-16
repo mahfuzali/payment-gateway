@@ -20,16 +20,28 @@ namespace PaymentGateway.IntegrationTests.Repositories
             builder.UseInMemoryDatabase("PaymentDb")
                    .UseInternalServiceProvider(serviceProvider);
 
+            //services.AddDbContext<ApplicationDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
+            //b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+
             return builder.Options;
         }
 
-        protected PaymentRepository GetRepository(IHttpClientFactory httpClientFactory)
+        //protected PaymentRepository GetRepository(IHttpClientFactory httpClientFactory)
+        //{
+        //    var options = CreateNewContextOptions();
+
+        //    _dbContext = new ApplicationDbContext(options);
+
+        //    return new PaymentRepository(_dbContext, httpClientFactory);
+        //}
+
+        protected RepositoryWrapper GetRepository(IHttpClientFactory httpClientFactory)
         {
             var options = CreateNewContextOptions();
 
             _dbContext = new ApplicationDbContext(options);
 
-            return new PaymentRepository(_dbContext, httpClientFactory);
+            return new RepositoryWrapper(_dbContext, httpClientFactory);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using PaymentGateway.Domain.Entities;
-using PaymentGateway.Infrastructure.Persistence;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
