@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/mahfuzali/payment-gateway/workflows/.NET%20Core/badge.svg)](https://github.com/mahfuzali/payment-gateway/actions)
+
 # Payment Gateway
 
 ## About 
