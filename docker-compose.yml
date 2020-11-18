@@ -39,5 +39,18 @@ services:
     ports:
       - 5432:5432 # use this port in your connection string
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: 'pgadmin4_container'
+    depends_on:
+      - postgresdb
+    ports:
+      - 5454:5454
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=mahfuzali@example.com
+      - PGADMIN_DEFAULT_PASSWORD=postgres
+      - PGADMIN_LISTEN_PORT=5454
+    restart: unless-stopped
+
 volumes:
   pgdata:
