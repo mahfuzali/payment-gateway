@@ -7,6 +7,11 @@ An API based application that will allow a merchant to offer a way for their sho
 
 Shopper -> Merchant -> Payment Gateway -> Bank
 
+## Technology used so far:
+- .NET 5
+- PostgreSQL 
+- Docker
+
 ### PaymentGateWay.API
 This project is a .NET Core Web API that process a payment through the payment gateway. When a shopper makes a call to the merchant it subsequently makes a call to the acquiring bank to obtain the payment with unique id and status (successful or declined).
 
