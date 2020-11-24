@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,7 @@ namespace PaymentGateway.API.Controllers
 {
     [Route("api/payment")]
     [ApiController]
+    [Authorize]
     public class PaymentController : ControllerBase
     {
         private readonly IRepositoryWrapper _repositoryWrapper;
