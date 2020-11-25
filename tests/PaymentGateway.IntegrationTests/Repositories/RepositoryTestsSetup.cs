@@ -8,15 +8,15 @@ namespace PaymentGateway.IntegrationTests.Repositories
 {
     public abstract class RepositoryTestsSetup
     {
-        protected ApplicationDbContext _dbContext;
+        protected PaymentDbContext _dbContext;
 
-        protected static DbContextOptions<ApplicationDbContext> CreateNewContextOptions()
+        protected static DbContextOptions<PaymentDbContext> CreateNewContextOptions()
         {
             var serviceProvider = new ServiceCollection()
                 .AddEntityFrameworkInMemoryDatabase()
                 .BuildServiceProvider();
 
-            var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            var builder = new DbContextOptionsBuilder<PaymentDbContext>();
             builder.UseInMemoryDatabase("PaymentDb")
                    .UseInternalServiceProvider(serviceProvider);
 
@@ -39,7 +39,7 @@ namespace PaymentGateway.IntegrationTests.Repositories
         {
             var options = CreateNewContextOptions();
 
-            _dbContext = new ApplicationDbContext(options);
+            _dbContext = new PaymentDbContext(options);
 
             return new RepositoryWrapper(_dbContext, httpClientFactory);
         }

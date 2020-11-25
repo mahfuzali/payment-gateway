@@ -12,14 +12,14 @@ namespace PaymentGateway.Infrastructure.Services
 {
     public class CardRepository : Repository<Card>, ICardRepository
     {
-        public CardRepository(ApplicationDbContext context) 
+        public CardRepository(PaymentDbContext context) 
             : base(context)
         { 
         }
 
-        public ApplicationDbContext ApplicationDbContext
+        public PaymentDbContext ApplicationDbContext
         {
-            get { return _context as ApplicationDbContext; }
+            get { return _context as PaymentDbContext; }
         }
 
         public async Task<IEnumerable<Card>> GetAllCardPayments()

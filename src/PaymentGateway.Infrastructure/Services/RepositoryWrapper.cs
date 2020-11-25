@@ -10,11 +10,11 @@ namespace PaymentGateway.Infrastructure.Services
 {
     public class RepositoryWrapper : IRepositoryWrapper
     {
-        private ApplicationDbContext _context;
+        private PaymentDbContext _context;
         private IHttpClientFactory _httpClientFactory;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public RepositoryWrapper(ApplicationDbContext context, IHttpClientFactory httpClientFactory) {
+        public RepositoryWrapper(PaymentDbContext context, IHttpClientFactory httpClientFactory) {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _httpClientFactory = httpClientFactory ??
                     throw new ArgumentNullException(nameof(httpClientFactory));

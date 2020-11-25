@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace PaymentGateway.Infrastructure.Persistence.Migrations
+namespace PaymentGateway.Infrastructure.Persistence.Migrations.PaymentDbMigration
 {
-    public partial class InitialApplicationMigration : Migration
+    public partial class InitialPaymentDbMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

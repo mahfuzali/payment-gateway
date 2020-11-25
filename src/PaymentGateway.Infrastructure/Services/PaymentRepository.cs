@@ -16,11 +16,11 @@ namespace PaymentGateway.Infrastructure.Services
 {
     public class PaymentRepository : IPaymentRepository, IDisposable
     {
-        private ApplicationDbContext _context;
+        private PaymentDbContext _context;
         private CancellationTokenSource _cancellationTokenSource;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public PaymentRepository(ApplicationDbContext context, IHttpClientFactory httpClientFactory) {
+        public PaymentRepository(PaymentDbContext context, IHttpClientFactory httpClientFactory) {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _httpClientFactory = httpClientFactory ??
                                 throw new ArgumentNullException(nameof(httpClientFactory));
