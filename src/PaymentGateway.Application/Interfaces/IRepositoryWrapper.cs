@@ -8,5 +8,6 @@ namespace PaymentGateway.Application.Interfaces
     {
         public ICardRepository Cards { get; }
         public IPaymentGatewayRepository PaymentGateways { get; }
+        public IUserRepository Users { get; }
     }
 }

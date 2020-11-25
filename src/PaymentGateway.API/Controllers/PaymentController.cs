@@ -22,7 +22,7 @@ namespace PaymentGateway.API.Controllers
         private readonly IConfiguration _config;
 
         public PaymentController(IRepositoryWrapper repositoryWrapper, IMapper mapper, 
-                                                ILogger<PaymentController> logger, IConfiguration config) {
+                                    ILogger<PaymentController> logger, IConfiguration config) {
             _repositoryWrapper = repositoryWrapper ??
                 throw new ArgumentNullException(nameof(repositoryWrapper));
             _mapper = mapper ??

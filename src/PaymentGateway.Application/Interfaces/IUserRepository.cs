@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.Application.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<Login>
     {
         Task<Login> GetLogin(string username, string password);
     }

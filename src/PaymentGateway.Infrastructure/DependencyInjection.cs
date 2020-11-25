@@ -21,7 +21,9 @@ namespace PaymentGateway.Infrastructure
 
             
             services.AddScoped<IPaymentDbContext>(provider => provider.GetService<PaymentDbContext>());
+            services.AddScoped<IUserDbContext>(provider => provider.GetService<UserDbContext>());
 
+            services.AddTransient<ITokenService, TokenService>();
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
             return services;
