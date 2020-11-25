@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.Infrastructure.Persistence
 {
-    public static class ApplicationDbContextSeed
+    public static class DbContextSeed
     {
-        public static async Task SeedSampleDataAsync(ApplicationDbContext context) {
+        public static async Task SeedPaymentDataAsync(PaymentDbContext context) {
 
             Card card = new Card() {
                 Number = "0123456789101112",
@@ -33,6 +33,23 @@ namespace PaymentGateway.Infrastructure.Persistence
             if (!context.Payments.Any())
             {
                 context.Payments.Add(payment);
+            }
+
+            await context.SaveChangesAsync();
+        }
+
+        public static async Task SeedUserDataAsync(UserDbContext context)
+        {
+            Login login = new Login()
+            {
+                Id = Guid.Parse("0c86a30a-394f-49a5-85ed-3b8cbe835b7c"),
+                Username = "mahfuzali",
+                Password = "password123"
+            };
+
+            if (!context.Logins.Any())
+            {
+                context.Logins.Add(login);
             }
 
             await context.SaveChangesAsync();

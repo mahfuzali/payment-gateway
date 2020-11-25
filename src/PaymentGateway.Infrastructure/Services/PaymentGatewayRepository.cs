@@ -16,7 +16,7 @@ namespace PaymentGateway.Infrastructure.Services
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public PaymentGatewayRepository(ApplicationDbContext context, IHttpClientFactory httpClientFactory)
+        public PaymentGatewayRepository(PaymentDbContext context, IHttpClientFactory httpClientFactory)
             : base(context)
         {
             _httpClientFactory = httpClientFactory ??
@@ -24,9 +24,9 @@ namespace PaymentGateway.Infrastructure.Services
 
         }
 
-        public ApplicationDbContext ApplicationDbContext
+        public PaymentDbContext ApplicationDbContext
         {
-            get { return _context as ApplicationDbContext; }
+            get { return _context as PaymentDbContext; }
         }
 
         public async Task<BankResponse> GetBankResponse(Card card, string bankEndPointUrl)

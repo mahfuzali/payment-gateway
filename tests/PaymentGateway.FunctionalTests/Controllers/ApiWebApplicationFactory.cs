@@ -25,7 +25,7 @@ namespace PaymentGateway.FunctionalTests.Controllers
 
                 // Add a database context (AppDbContext) using an in-memory
                 // database for testing.
-                services.AddDbContext<ApplicationDbContext>(options =>
+                services.AddDbContext<PaymentDbContext>(options =>
                 {
                     options.UseInMemoryDatabase("PaymentDb");
                     options.UseInternalServiceProvider(serviceProvider);
@@ -42,7 +42,7 @@ namespace PaymentGateway.FunctionalTests.Controllers
                 using (var scope = sp.CreateScope())
                 {
                     var scopedServices = scope.ServiceProvider;
-                    var context = scopedServices.GetRequiredService<ApplicationDbContext>();
+                    var context = scopedServices.GetRequiredService<PaymentDbContext>();
 
                     var logger = scopedServices
                         .GetRequiredService<ILogger<ApiWebApplicationFactory<TStartup>>>();
@@ -53,7 +53,7 @@ namespace PaymentGateway.FunctionalTests.Controllers
                     try
                     {
                         // Seed the database with test data.
-                        await ApplicationDbContextSeed.SeedSampleDataAsync(context);
+                        await DbContextSeed.SeedPaymentDataAsync(context);
                     }
                     catch (Exception ex)
                     {
