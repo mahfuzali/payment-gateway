@@ -8,9 +8,11 @@ namespace PaymentGateway.IntegrationTests.Repositories
 {
     public abstract class RepositoryTestsSetup
     {
-        protected PaymentDbContext _dbContext;
+        protected PaymentDbContext _paymentDbContext;
 
-        protected static DbContextOptions<PaymentDbContext> CreateNewContextOptions()
+        protected UserDbContext _userDbContext;
+
+        protected static DbContextOptions<PaymentDbContext> CreatePaymentContextOptions()
         {
             var serviceProvider = new ServiceCollection()
                 .AddEntityFrameworkInMemoryDatabase()
@@ -20,28 +22,33 @@ namespace PaymentGateway.IntegrationTests.Repositories
             builder.UseInMemoryDatabase("PaymentDb")
                    .UseInternalServiceProvider(serviceProvider);
 
-            //services.AddDbContext<ApplicationDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
-            //b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+            return builder.Options;
+        }
+
+        protected static DbContextOptions<UserDbContext> CreateUserContextOptions()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddEntityFrameworkInMemoryDatabase()
+                .BuildServiceProvider();
+
+            var builder = new DbContextOptionsBuilder<UserDbContext>();
+            builder.UseInMemoryDatabase("PaymentDb")
+                   .UseInternalServiceProvider(serviceProvider);
 
             return builder.Options;
         }
 
-        //protected PaymentRepository GetRepository(IHttpClientFactory httpClientFactory)
-        //{
-        //    var options = CreateNewContextOptions();
-
-        //    _dbContext = new ApplicationDbContext(options);
-
-        //    return new PaymentRepository(_dbContext, httpClientFactory);
-        //}
 
         protected RepositoryWrapper GetRepository(IHttpClientFactory httpClientFactory)
         {
-            var options = CreateNewContextOptions();
+            var paymentOptions = CreatePaymentContextOptions();
 
-            _dbContext = new PaymentDbContext(options);
+            var userOptions = CreateUserContextOptions();
 
-            return new RepositoryWrapper(_dbContext, httpClientFactory);
+            _paymentDbContext = new PaymentDbContext(paymentOptions);
+            _userDbContext = new UserDbContext(userOptions);
+
+            return new RepositoryWrapper(_paymentDbContext, _userDbContext,  httpClientFactory);
         }
     }
 }
