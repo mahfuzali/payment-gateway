@@ -14,21 +14,26 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.Infrastructure.Services
 {
-    public class PaymentRepository : IPaymentRepository, IDisposable
+    public class PaymentRepository : Repository<Payment>, IPaymentRepository
     {
-        private PaymentDbContext _context;
         private CancellationTokenSource _cancellationTokenSource;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public PaymentRepository(PaymentDbContext context, IHttpClientFactory httpClientFactory) {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+        public PaymentRepository(PaymentDbContext context, IHttpClientFactory httpClientFactory)
+            : base(context)
+        {
             _httpClientFactory = httpClientFactory ??
                                 throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
+        public PaymentDbContext ApplicationDbContext
+        {
+            get { return _context as PaymentDbContext; }
+        }
+
         public async Task<IEnumerable<Card>> GetAllCardPayments()
         {
-            return await _context.Cards.OrderBy(o => o.Number).ToListAsync();
+            return await ApplicationDbContext.Cards.OrderBy(o => o.Number).ToListAsync();
         }
 
         public async Task<Card> GetCard(string cardNumber)
@@ -38,7 +43,7 @@ namespace PaymentGateway.Infrastructure.Services
                 throw new ArgumentNullException(nameof(cardNumber));
             }
 
-            return await _context.Cards.Where(c => c.Number == cardNumber).FirstOrDefaultAsync();
+            return await ApplicationDbContext.Cards.Where(c => c.Number == cardNumber).FirstOrDefaultAsync();
         }
 
         public async Task<Payment> GetPayment(Guid paymentId)
@@ -48,7 +53,7 @@ namespace PaymentGateway.Infrastructure.Services
                 throw new ArgumentNullException(nameof(paymentId));
             }
 
-            return await _context.Payments.Include(c => c.Card).FirstOrDefaultAsync(p => p.Id == paymentId);
+            return await ApplicationDbContext.Payments.Include(c => c.Card).FirstOrDefaultAsync(p => p.Id == paymentId);
         }
 
         public void StoreCard(Card card)
@@ -58,8 +63,8 @@ namespace PaymentGateway.Infrastructure.Services
                 throw new ArgumentNullException(nameof(card));
             }
 
-            _context.Cards.Add(card);
-            _context.SaveChangesAsync();
+            ApplicationDbContext.Cards.Add(card);
+            _context.SaveChanges();
         }
 
         public async Task<BankResponse> GetBankResponse(Card card, string bankEndPointUrl)
@@ -91,8 +96,8 @@ namespace PaymentGateway.Infrastructure.Services
                 throw new ArgumentNullException(nameof(payment));
             }
 
-            _context.Payments.Add(payment);
-            _context.SaveChangesAsync();
+            ApplicationDbContext.Payments.Add(payment);
+            ApplicationDbContext.SaveChanges();
         }
 
         public async Task<bool> SaveChangesAsync()
@@ -100,28 +105,28 @@ namespace PaymentGateway.Infrastructure.Services
             return (await _context.SaveChangesAsync() > 0);
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    GC.SuppressFinalize(this);
+        //}
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_context != null)
-                {
-                    _context.Dispose();
-                    _context = null;
-                }
-                if (_cancellationTokenSource != null)
-                {
-                    _cancellationTokenSource.Dispose();
-                    _cancellationTokenSource = null;
-                }
-            }
-        }
+        //protected virtual void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        if (_context != null)
+        //        {
+        //            _context.Dispose();
+        //            _context = null;
+        //        }
+        //        if (_cancellationTokenSource != null)
+        //        {
+        //            _cancellationTokenSource.Dispose();
+        //            _cancellationTokenSource = null;
+        //        }
+        //    }
+        //}
 
     }
 }
