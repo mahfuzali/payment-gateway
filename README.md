@@ -2,7 +2,7 @@
 
 # Payment Gateway
 
-## About 
+### About 
 An API based application that will allow a merchant to offer a way for their shoppers to pay for their product.
 
 Shopper -> Merchant -> Payment Gateway -> Bank
