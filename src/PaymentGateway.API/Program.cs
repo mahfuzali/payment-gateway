@@ -20,18 +20,27 @@ namespace PaymentGateway.API
 
             var host = CreateHostBuilder(args).Build();
 
+
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
 
                 try
                 {
-                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    var appDbContext = services.GetRequiredService<PaymentDbContext>();
 
-                    context.Database.EnsureDeleted();
-                    context.Database.Migrate();
+                    appDbContext.Database.EnsureDeleted();
+                    appDbContext.Database.Migrate();
 
-                    await ApplicationDbContextSeed.SeedSampleDataAsync(context);
+                    await DbContextSeed.SeedPaymentDataAsync(appDbContext);
+
+
+                    var userDbContext = services.GetRequiredService<UserDbContext>();
+
+                    userDbContext.Database.EnsureDeleted();
+                    userDbContext.Database.Migrate();
+
+                    await DbContextSeed.SeedUserDataAsync(userDbContext);
                 }
                 catch (Exception ex)
                 {

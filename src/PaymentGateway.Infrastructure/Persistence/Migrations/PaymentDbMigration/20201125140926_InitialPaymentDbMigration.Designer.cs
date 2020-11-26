@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PaymentGateway.Infrastructure.Persistence;
 
-namespace PaymentGateway.Infrastructure.Persistence.Migrations
+namespace PaymentGateway.Infrastructure.Persistence.Migrations.PaymentDbMigration
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201113180218_InitialApplicationMigration")]
-    partial class InitialApplicationMigration
+    [DbContext(typeof(PaymentDbContext))]
+    [Migration("20201125140926_InitialPaymentDbMigration")]
+    partial class InitialPaymentDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -9,9 +9,9 @@ using PaymentGateway.Application.Interfaces;
 
 namespace PaymentGateway.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public class PaymentDbContext : DbContext, IPaymentDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public PaymentDbContext(DbContextOptions<PaymentDbContext> options)
             : base(options)
         {
         }

@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PaymentGateway.Infrastructure.Persistence;
 
-namespace PaymentGateway.Infrastructure.Persistence.Migrations
+namespace PaymentGateway.Infrastructure.Persistence.Migrations.PaymentDbMigration
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(PaymentDbContext))]
+    partial class PaymentDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

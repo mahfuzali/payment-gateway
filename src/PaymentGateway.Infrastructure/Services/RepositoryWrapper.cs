@@ -10,23 +10,31 @@ namespace PaymentGateway.Infrastructure.Services
 {
     public class RepositoryWrapper : IRepositoryWrapper
     {
-        private ApplicationDbContext _context;
+        private PaymentDbContext _paymentContext;
+        private UserDbContext _userDbContext;
+
         private IHttpClientFactory _httpClientFactory;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public RepositoryWrapper(ApplicationDbContext context, IHttpClientFactory httpClientFactory) {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+        public RepositoryWrapper(PaymentDbContext paymentContext, UserDbContext userDbContext, IHttpClientFactory httpClientFactory) {
+            _paymentContext = paymentContext ?? throw new ArgumentNullException(nameof(paymentContext));
+            _userDbContext = userDbContext ?? throw new ArgumentNullException(nameof(userDbContext));
+
             _httpClientFactory = httpClientFactory ??
                     throw new ArgumentNullException(nameof(httpClientFactory));
 
-            Cards = new CardRepository(_context);
-            PaymentGateways = new PaymentGatewayRepository(_context, _httpClientFactory);
-
+            Users = new UserRepository(_userDbContext);
+            
+            Cards = new CardRepository(_paymentContext);
+            
+            PaymentGateways = new PaymentGatewayRepository(_paymentContext, _httpClientFactory);
         }
 
         public ICardRepository Cards { get; private set; }
 
         public IPaymentGatewayRepository PaymentGateways { get; private set; }
+
+        public IUserRepository Users { get; private set; }
 
         public void Dispose()
         {
@@ -38,10 +46,10 @@ namespace PaymentGateway.Infrastructure.Services
         {
             if (disposing)
             {
-                if (_context != null)
+                if (_paymentContext != null)
                 {
-                    _context.Dispose();
-                    _context = null;
+                    _paymentContext.Dispose();
+                    _paymentContext = null;
                 }
                 if (_cancellationTokenSource != null)
                 {

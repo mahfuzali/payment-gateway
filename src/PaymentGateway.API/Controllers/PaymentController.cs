@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,7 @@ namespace PaymentGateway.API.Controllers
 {
     [Route("api/payment")]
     [ApiController]
+    [Authorize]
     public class PaymentController : ControllerBase
     {
         private readonly IRepositoryWrapper _repositoryWrapper;
@@ -20,7 +22,7 @@ namespace PaymentGateway.API.Controllers
         private readonly IConfiguration _config;
 
         public PaymentController(IRepositoryWrapper repositoryWrapper, IMapper mapper, 
-                                                ILogger<PaymentController> logger, IConfiguration config) {
+                                    ILogger<PaymentController> logger, IConfiguration config) {
             _repositoryWrapper = repositoryWrapper ??
                 throw new ArgumentNullException(nameof(repositoryWrapper));
             _mapper = mapper ??
@@ -30,8 +32,6 @@ namespace PaymentGateway.API.Controllers
             _config = config ?? 
                 throw new ArgumentNullException(nameof(config));
         }
-
-        // GET: api/payment/8b51ea22-adbf-46f3-9f90-cf9d9d534d45
 
         /// <summary>
         /// Retrieving a payment's details.
@@ -61,8 +61,6 @@ namespace PaymentGateway.API.Controllers
 
             return Ok(_mapper.Map<Application.Models.PaymentDto>(paymentEntity));
         }
-
-        // POST: api/payment
 
         /// <summary>
         /// Process a payment.

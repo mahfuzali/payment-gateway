@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PaymentGateway.Application.Interfaces
 {
-    public interface IApplicationDbContext
+    public interface IPaymentDbContext
     {
         public DbSet<Card> Cards { get; set; }
 

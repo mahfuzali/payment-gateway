@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PaymentGateway.Domain.Entities
 {
@@ -7,6 +8,5 @@ namespace PaymentGateway.Domain.Entities
         public Guid Id { get; set; }
         public string Status { get; set; }
         public Card Card { get; set; }
-        
     }
 }

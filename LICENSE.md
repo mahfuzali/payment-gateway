@@ -1,0 +1,1 @@
+(c) All right reserved. Mahfuz Ali
