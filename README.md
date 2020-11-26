@@ -35,7 +35,7 @@ To run this project, navigate to the project directory and run the following com
 
 ### Note: In order for payment gateway to run, bank simulator also needs to be run at the same time.
 
-### Docker implementation
+#### Docker implementation
 To run the application on Docker, run the following commands:
 
 1. ```docker-compose build```
