@@ -7,7 +7,7 @@ An API based application that will allow a merchant to offer a way for their sho
 
 Shopper -> Merchant -> Payment Gateway -> Bank
 
-## Technology used so far:
+### Technology used so far:
 - .NET 5
 - PostgreSQL 
 - Docker
@@ -22,15 +22,15 @@ For the purpose of testing, it makes a call to the BankSimulator endpoint. In pr
   }`
 
 To run this project, navigate to the project directory and run the following command:
-`dotnet run`
-* Open the browser: `http://localhost:5000`
+```dotnet run```
+* Open the browser: ```http://localhost:5000```
 
 ### BankSimulator
 This project simulates a fake bank that for testing purposes. When a merchant make a call to it returns a unique id and status (successful or declined).
 
 To run this project, navigate to the project directory and run the following command:
-`dotnet run`
-* Open the browser: `http://localhost:5050`
+```dotnet run```
+* Open the browser: ```http://localhost:5050```
 
 
 ### Note: In order for payment gateway to run, bank simulator also needs to be run at the same time.
@@ -38,8 +38,8 @@ To run this project, navigate to the project directory and run the following com
 ### Docker implementation
 To run the application on Docker, run the following commands:
 
-`docker-compose build`
-`docker-compose up`
+```docker-compose build```
+```docker-compose up```
 
 ### Future improvement
 * Obtaining application metrics using tool such as, Prometheus and Grafana
