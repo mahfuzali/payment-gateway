@@ -34,7 +34,22 @@ namespace PaymentGateway.API.Controllers
                 throw new ArgumentNullException(nameof(tokenService));
         }
 
-        // GET api/values
+        /// <summary>
+        /// Retrieving JWT token for authentication.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST  /api/auth/login
+        ///     {
+        ///        "username": "username",
+        ///        "password": "password"
+        ///     }
+        /// </remarks>
+        /// <param name="loginModel"></param>  
+        /// <returns>Retrievs JWT and refresh token</returns>
+        /// <response code="200">JWT and refresh token</response>
+        /// <response code="401">Invalid credentials</response>  
         [HttpPost, Route("login")]
         public async Task<IActionResult> LoginAsync(LoginModel loginModel)
         {

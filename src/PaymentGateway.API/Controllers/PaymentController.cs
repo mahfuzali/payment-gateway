@@ -33,8 +33,6 @@ namespace PaymentGateway.API.Controllers
                 throw new ArgumentNullException(nameof(config));
         }
 
-        // GET: api/payment/8b51ea22-adbf-46f3-9f90-cf9d9d534d45
-
         /// <summary>
         /// Retrieving a payment's details.
         /// </summary>
@@ -63,8 +61,6 @@ namespace PaymentGateway.API.Controllers
 
             return Ok(_mapper.Map<Application.Models.PaymentDto>(paymentEntity));
         }
-
-        // POST: api/payment
 
         /// <summary>
         /// Process a payment.
