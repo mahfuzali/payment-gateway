@@ -2,13 +2,12 @@
 
 # Payment Gateway
 
-## About 
+### About 
 An API based application that will allow a merchant to offer a way for their shoppers to pay for their product.
 
 Shopper -> Merchant -> Payment Gateway -> Bank
 
-
-#### Technology used so far:
+### Technology used so far:
 - .NET 5
 - PostgreSQL 
 - Docker
@@ -41,8 +40,8 @@ To run this project, navigate to the project directory and run the following com
 #### Docker implementation
 To run the application on Docker, run the following commands:
 
-```docker-compose build```
-```docker-compose up```
+1. ```docker-compose build```
+2. ```docker-compose up```
 
 #### Future improvement
 * Obtaining application metrics using tool such as, Prometheus and Grafana
