@@ -38,8 +38,8 @@ To run this project, navigate to the project directory and run the following com
 ### Docker implementation
 To run the application on Docker, run the following commands:
 
-```docker-compose build```
-```docker-compose up```
+1. ```docker-compose build```
+2. ```docker-compose up```
 
 ### Future improvement
 * Obtaining application metrics using tool such as, Prometheus and Grafana
