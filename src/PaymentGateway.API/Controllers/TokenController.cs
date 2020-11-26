@@ -30,6 +30,22 @@ namespace PaymentGateway.API.Controllers
                 throw new ArgumentNullException(nameof(tokenService));
         }
 
+        /// <summary>
+        /// Gets the user information from the expired access token and validates the refresh token against the user
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST  /api/token/refresh
+        ///     {
+        ///        "accessToken": "accessToken",
+        ///        "refreshToken": "refreshToken"
+        ///     }
+        /// </remarks>
+        /// <param name="tokenApiModel"></param>  
+        /// <returns>Retrievs JWT and refresh token</returns>
+        /// <response code="200">Generate a new access token and refresh token</response>
+        /// <response code="400">Invalid request</response>  
         [HttpPost]
         [Route("refresh")]
         public IActionResult Refresh(TokenApiModel tokenApiModel)
@@ -64,6 +80,17 @@ namespace PaymentGateway.API.Controllers
             });
         }
 
+        /// <summary>
+        /// Revoke endpoint which invalidates the refresh token.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET  /api/token/revoke
+        ///
+        /// </remarks>
+        /// <response code="200">Successfully revoked</response>
+        /// <response code="404">Unsucessful</response>  
         [HttpPost, Authorize]
         [Route("revoke")]
         public IActionResult Revoke()
