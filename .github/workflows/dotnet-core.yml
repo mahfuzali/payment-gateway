@@ -68,5 +68,10 @@ jobs:
         dotnet pack --configuration Release ${{github.workspace}}/src/PaymentGateway.API/PaymentGateway.API.csproj -o ${{ github.workspace }}/staging
         dotnet pack --configuration Release ${{github.workspace}}/src/BankSimulator/BankSimulator.csproj -o ${{ github.workspace }}/staging
 
+    - name: Publish build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: packages
+        path: staging
 
 
