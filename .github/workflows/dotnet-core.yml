@@ -35,13 +35,13 @@ jobs:
     - name: Generate coverage report
       run: |
         printenv
-        dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput='./coverage/coverage.info ' -c Release
+        dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput='./coverage/coverage.info ' -c Release  --no-build
+        genhtml coverage.info --output-directory coverage
         ls
     - name: Publish coverage report to coveralls.io
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ./coverage/coverage.info 
 
     - name: Publish
       run: dotnet publish --no-build -c Release 
