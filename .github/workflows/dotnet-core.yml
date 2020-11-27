@@ -35,9 +35,8 @@ jobs:
     - name: Generate coverage report
       run: |
         dotnet test -c Release --no-build /p:CollectCoverage=true /p:CoverletOutput="${{ github.workspace }}/coverage/lcov.info" /p:MergeWith="${{ github.workspace }}/coverage/lcov.info" /p:CoverletOutputFormat=lcov
-        ls
-        echo ${{ github.workspace }}
         printenv
+      working-directory: ${{ github.workspace }}
 
     - name: Publish coverage report 
       uses: coverallsapp/github-action@master
