@@ -2,9 +2,13 @@ name: .NET Core
 
 on:
   push:
-    branches: '**'
+    branches: 
+        - '**'
+    tags:
+      - 'v*.*.*'
   pull_request:
-    branches: [ develop, master ]
+    branches: 
+        - '**'
 
 jobs:
   build:
@@ -34,7 +38,8 @@ jobs:
 
     - name: Generate coverage report
       run: |
-        dotnet test -c Release --no-build /p:CollectCoverage=true /p:CoverletOutput="${{ github.workspace }}/coverage/lcov.info" /p:MergeWith="${{ github.workspace }}/coverage/lcov.info" /p:CoverletOutputFormat=lcov
+        dotnet test -c Release --no-build /p:CollectCoverage=true /p:CoverletOutput="${{ github.workspace }}/coverage/lcov.info" /p:CoverletOutputFormat=lcov
+        genhtml coverage.info
         printenv
       working-directory: ${{ github.workspace }}
 
