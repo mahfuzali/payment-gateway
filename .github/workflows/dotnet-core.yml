@@ -18,10 +18,10 @@ jobs:
       with:
         dotnet-version: 5.0.100
 
-    - name: Output Run ID
-      run: echo ${{ github.run_id }}
-    - name: Output Run Number
-      run: echo ${{ github.run_number }}
+    - name: Output Run ID and Run Number
+      run: |
+        echo ${{ github.run_id }}
+        echo ${{ github.run_number }}
 
     - name: Install dependencies
       run: dotnet restore
@@ -30,7 +30,19 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Test
-      run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutputFormat=lcov
+      run: dotnet test --no-restore --verbosity normal
+
+    - name: Generate coverage report
+      run: |
+        printenv
+        cd ./tests/
+        dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+
+    - name: Publish coverage report to coveralls.io
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./tests/TestResults/coverage.info 
 
     - name: Publish coverage report to coveralls.io
       uses: coverallsapp/github-action@master
