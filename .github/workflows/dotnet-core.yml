@@ -36,7 +36,6 @@ jobs:
       run: |
         printenv
         dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput='./coverage/coverage.info ' -c Release  --no-build
-        genhtml coverage.info --output-directory coverage
         ls
     - name: Publish coverage report to coveralls.io
       uses: coverallsapp/github-action@master
