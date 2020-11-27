@@ -18,6 +18,11 @@ jobs:
       with:
         dotnet-version: 5.0.100
 
+    - name: Output Run ID
+      run: echo ${{ github.run_id }}
+    - name: Output Run Number
+      run: echo ${{ github.run_number }}
+
     - name: Install dependencies
       run: dotnet restore
 
@@ -30,5 +35,17 @@ jobs:
     - name: Publish
       run: dotnet publish --no-build -c Release 
 
+
+    - name: Create bank simulator artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: banksimulator-dotnet-${{github.run_number}}
+        path: /home/runner/work/payment-gateway/payment-gateway/src/BankSimulator/bin/Release/net5.0/publish/
+
+    - name: Create payment-gateway artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: paymentgateway-dotnet-${{github.run_number}}
+        path: /home/runner/work/payment-gateway/payment-gateway/src/PaymentGateway.API/bin/Release/net5.0/publish/
 
 
