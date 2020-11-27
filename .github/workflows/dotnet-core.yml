@@ -42,11 +42,11 @@ jobs:
         printenv
       working-directory: ${{ github.workspace }}
 
-    - name: Publish Coverage Report 
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ${{ github.workspace }}/coverage/lcov.info
+    # - name: Publish Coverage Report 
+    #  uses: coverallsapp/github-action@master
+    #  with:
+    #    github-token: ${{ secrets.GITHUB_TOKEN }}
+    #    path-to-lcov: ${{ github.workspace }}/coverage/lcov.info
 
     - name: Publish
       run: dotnet publish --no-build -c Release 
