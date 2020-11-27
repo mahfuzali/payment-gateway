@@ -37,6 +37,26 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
 
     - name: Generate coverage report
+      # run: reportgenerator -reports:**/coverage.cobertura.xml -targetdir:Report -reporttypes:HtmlInline_AzurePipelines;Cobertura
+      uses: danielpalme/ReportGenerator-GitHub-Action@4.8.1
+      with:
+        reports: "**/coverage*cobertura.xml"
+        targetdir: "Report"
+        reporttypes: "HtmlInline;Cobertura"
+        tag: '${{ github.run_number }}_${{ github.run_id }}'
+      if: github.event_name == 'push' && github.repository_owner == 'mahfuzali'       # Don't run on forks
+
+    - name: Publish coverage report
+      uses: 5monkeys/cobertura-action@master
+      with:
+        path: Report/Cobertura.xml
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        minimum_coverage: 75
+      if: github.event_name == 'push' && github.repository_owner == 'mahfuzali'       # Don't run on forks
+
+
+
+    - name: Generate coverage report
       run: |
         dotnet test -c Release --no-build /p:CollectCoverage=true /p:CoverletOutput="${{ github.workspace }}/coverage/lcov.info" /p:CoverletOutputFormat=lcov
         printenv
