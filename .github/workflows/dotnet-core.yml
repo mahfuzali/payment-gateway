@@ -42,7 +42,6 @@ jobs:
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: /home/runner/work/payment-gateway/payment-gateway/coverage/lcov.info
 
     - name: Publish
       run: dotnet publish --no-build -c Release 
