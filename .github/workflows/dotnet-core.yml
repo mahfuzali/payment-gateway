@@ -64,7 +64,9 @@ jobs:
         path: ${{ github.workspace }}/src/PaymentGateway.API/bin/Release/net5.0/publish/
 
     - name: Create the package
-      run: dotnet pack --configuration Release ${{github.workspace}}/src/PaymentGateway.API.csproj -o ${{ github.workspace }}/staging
+      run: |
+        dotnet pack --configuration Release ${{github.workspace}}/src/PaymentGateway.API/PaymentGateway.API.csproj -o ${{ github.workspace }}/staging
+        dotnet pack --configuration Release ${{github.workspace}}/src/BankSimulator/BankSimulator.csproj -o ${{ github.workspace }}/staging
 
 
 
