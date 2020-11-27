@@ -63,7 +63,8 @@ jobs:
         name: paymentgateway-dotnet-${{github.run_number}}
         path: ${{ github.workspace }}/src/PaymentGateway.API/bin/Release/net5.0/publish/
 
-    - name: Pack
-      run: dotnet pack "./${{ env.projectName }}/${{ env.projectName }}.csproj" -c Release --no-build --include-symbols -o $GITHUB_WORKSPACE/staging
+    - name: Create the package
+      run: dotnet pack --configuration Release ${{github.workspace}}/src/PaymentGateway.API.csproj -o ${{ github.workspace }}/staging
+
 
 
