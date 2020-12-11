@@ -15,64 +15,55 @@ env:
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        dotnet: [ { sdk: "3.1", framework: "netcoreapp3.1" }, { sdk: "5.0", framework: "net5.0" } ]
+    lint:
+        name: Lint
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+          - name: Setup .NET Core SDK
+            uses: actions/setup-dotnet@v1.7.2
+            with:
+              dotnet-version: 3.1
+          - name: Restore Tool
+            run: dotnet tool restore
+          - name: Add Problem Matcher for dotnet-format
+            uses: xt0rted/dotnet-format-problem-matcher@v1
+          - name: Lint
+            run: dotnet format --check --dry-run
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.100
+    test:
+        name: Debug Build & Test
+        runs-on: ${{ matrix.os }}
+        strategy:
+          matrix:
+            os: [ubuntu-latest, windows-latest, macos-latest]
+            dotnet: [ { sdk: "3.1", framework: "netcoreapp3.1" }, { sdk: "5.0", framework: "net5.0" } ]
+            exclude:
+              - os: windows-latest
+                dotnet: { sdk: "3.1", framework: "netcoreapp3.1" }
+        steps:
+          - uses: actions/checkout@v2
+          - uses: actions/cache@v2.1.3
+            with:
+              path: ${{ env.NUGET_PACKAGES }}
+              key: ${{ runner.os }}-nuget-${{ matrix.dotnet.sdk }}-${{ hashFiles('**/packages.lock.json') }}
+              restore-keys: |
+                ${{ runner.os }}-nuget-${{ matrix.dotnet.sdk }}-
+                ${{ runner.os }}-nuget-
+          - name: Setup .NET Core ${{ matrix.dotnet.sdk }} SDK
+            uses: actions/setup-dotnet@v1.7.2
+            with:
+              dotnet-version: ${{ matrix.dotnet.sdk }}
 
-    - name: Output Run ID and Run Number
-      run: |
-        echo ${{ github.run_id }}
-        echo ${{ github.run_number }}
+          - name: Restore
+            run: dotnet restore --locked-mode
+          - name: Build
+            run: dotnet build --no-restore -f ${{ matrix.dotnet.framework }}
+          - name: Test
+            run: dotnet test --no-build -f ${{ matrix.dotnet.framework }} --settings coverlet.runsettings
 
-    - name: Install dependencies
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-
-  test:
-    name: Debug Build & Test
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        dotnet: [ { sdk: "3.1", framework: "netcoreapp3.1" }, { sdk: "5.0", framework: "net5.0" } ]
-        exclude:
-          - os: windows-latest
-            dotnet: { sdk: "3.1", framework: "netcoreapp3.1" }
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2.1.3
-        with:
-          path: ${{ env.NUGET_PACKAGES }}
-          key: ${{ runner.os }}-nuget-${{ matrix.dotnet.sdk }}-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-${{ matrix.dotnet.sdk }}-
-            ${{ runner.os }}-nuget-
-      - name: Setup .NET Core ${{ matrix.dotnet.sdk }} SDK
-        uses: actions/setup-dotnet@v1.7.2
-        with:
-          dotnet-version: ${{ matrix.dotnet.sdk }}
-
-      - name: Restore
-        run: dotnet restore --locked-mode
-      - name: Build
-        run: dotnet build --no-restore -f ${{ matrix.dotnet.framework }}
-      - name: Test
-        run: dotnet test --no-build -f ${{ matrix.dotnet.framework }} --settings coverlet.runsettings
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          file: "!**/.nuget/packages/**/*.*"
-          flags: ${{ runner.os }},${{ matrix.dotnet.framework }}
+          - name: Upload coverage to Codecov
+            uses: codecov/codecov-action@v1
+            with:
+              file: "!**/.nuget/packages/**/*.*"
+              flags: ${{ runner.os }},${{ matrix.dotnet.framework }}
