@@ -41,12 +41,6 @@ jobs:
         dotnet test -c Release --no-build /p:CollectCoverage=true /p:CoverletOutput="${{ github.workspace }}/coverage/lcov.info" /p:CoverletOutputFormat=lcov
         printenv
       working-directory: ${{ github.workspace }}
-
-    # - name: Publish Coverage Report 
-    #  uses: coverallsapp/github-action@master
-    #  with:
-    #    github-token: ${{ secrets.GITHUB_TOKEN }}
-    #    path-to-lcov: ${{ github.workspace }}/coverage/lcov.info
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
