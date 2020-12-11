@@ -16,8 +16,11 @@ env:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        dotnet: [ { sdk: "3.1", framework: "netcoreapp3.1" }, { sdk: "5.0", framework: "net5.0" } ]
 
     steps:
     - uses: actions/checkout@v2
@@ -37,44 +40,39 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
 
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+  test:
+    name: Debug Build & Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        dotnet: [ { sdk: "3.1", framework: "netcoreapp3.1" }, { sdk: "5.0", framework: "net5.0" } ]
+        exclude:
+          - os: windows-latest
+            dotnet: { sdk: "3.1", framework: "netcoreapp3.1" }
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2.1.3
+        with:
+          path: ${{ env.NUGET_PACKAGES }}
+          key: ${{ runner.os }}-nuget-${{ matrix.dotnet.sdk }}-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-${{ matrix.dotnet.sdk }}-
+            ${{ runner.os }}-nuget-
+      - name: Setup .NET Core ${{ matrix.dotnet.sdk }} SDK
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: ${{ matrix.dotnet.sdk }}
 
-    - name: Generate Coverage Report
-      run: dotnet test --no-build -f ${{ matrix.dotnet.framework }} --settings coverlet.runsettings
-      working-directory: ${{ github.workspace }}
-    
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        file: "!**/.nuget/packages/**/*.*"
-        flags: ${{ runner.os }},${{ matrix.dotnet.framework }}
-        token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Restore
+        run: dotnet restore --locked-mode
+      - name: Build
+        run: dotnet build --no-restore -f ${{ matrix.dotnet.framework }}
+      - name: Test
+        run: dotnet test --no-build -f ${{ matrix.dotnet.framework }} --settings coverlet.runsettings
 
-    - name: Publish
-      run: dotnet publish --no-build -c Release 
-
-    - name: Create bank simulator artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: banksimulator-dotnet-${{github.run_number}}
-        path: ${{ github.workspace }}/src/BankSimulator/bin/Release/net5.0/publish/
-
-    - name: Create payment-gateway artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: paymentgateway-dotnet-${{github.run_number}}
-        path: ${{ github.workspace }}/src/PaymentGateway.API/bin/Release/net5.0/publish/
-
-    - name: Create the package
-      run: |
-        dotnet pack --configuration Release ${{github.workspace}}/src/PaymentGateway.API/PaymentGateway.API.csproj -o ${{ github.workspace }}/staging
-        dotnet pack --configuration Release ${{github.workspace}}/src/BankSimulator/BankSimulator.csproj -o ${{ github.workspace }}/staging
-
-    - name: Publish build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: packages
-        path: staging
-
-
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          file: "!**/.nuget/packages/**/*.*"
+          flags: ${{ runner.os }},${{ matrix.dotnet.framework }}
