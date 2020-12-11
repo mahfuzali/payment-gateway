@@ -10,6 +10,10 @@ on:
     branches: 
       - '**'
 
+
+env:
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
 jobs:
   build:
 
@@ -37,14 +41,14 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
 
     - name: Generate Coverage Report
-      run: |
-        dotnet test -c Release --no-build /p:CollectCoverage=true /p:CoverletOutput="${{ github.workspace }}/coverage/lcov.info" /p:CoverletOutputFormat=lcov
-        printenv
+      run: dotnet test --no-build -f ${{ matrix.dotnet.framework }} --settings coverlet.runsettings
       working-directory: ${{ github.workspace }}
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
+        file: "!**/.nuget/packages/**/*.*"
+        flags: ${{ runner.os }},${{ matrix.dotnet.framework }}
         token: ${{ secrets.CODECOV_TOKEN }}
 
     - name: Publish
