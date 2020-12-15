@@ -15,7 +15,22 @@ env:
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
 
 jobs:
-    
+    lint:
+      name: Lint
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: Setup .NET Core SDK
+          uses: actions/setup-dotnet@v1.7.2
+          with:
+            dotnet-version: 5.0.100
+        - name: Restore Tool
+          run: dotnet tool restore
+        - name: Add Problem Matcher for dotnet-format
+          uses: xt0rted/dotnet-format-problem-matcher@v1
+        - name: Lint
+          run: dotnet format --check --dry-run
+
     build-and-test:
         name: Debug Build & Test
         runs-on: ${{ matrix.os }}
@@ -41,10 +56,8 @@ jobs:
 
           - name: Restore
             run: dotnet restore --locked-mode
-
           - name: Build
             run: dotnet build --no-restore -f ${{ matrix.dotnet.framework }}
-
           - name: Test
             run: dotnet test --no-build -f ${{ matrix.dotnet.framework }} --settings coverlet.runsettings
 
