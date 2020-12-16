@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -21,15 +21,16 @@ namespace PaymentGateway.API.Controllers
         private readonly ILogger<PaymentController> _logger;
         private readonly IConfiguration _config;
 
-        public PaymentController(IRepositoryWrapper repositoryWrapper, IMapper mapper, 
-                                    ILogger<PaymentController> logger, IConfiguration config) {
+        public PaymentController(IRepositoryWrapper repositoryWrapper, IMapper mapper,
+                                    ILogger<PaymentController> logger, IConfiguration config)
+        {
             _repositoryWrapper = repositoryWrapper ??
                 throw new ArgumentNullException(nameof(repositoryWrapper));
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
             _logger = logger ??
                 throw new ArgumentNullException(nameof(logger));
-            _config = config ?? 
+            _config = config ??
                 throw new ArgumentNullException(nameof(config));
         }
 
@@ -84,12 +85,12 @@ namespace PaymentGateway.API.Controllers
         /// <response code="404">If the bank response is null</response>  
         [HttpPost]
         public async Task<IActionResult> PostCardPayment(CardDto card)
-        {           
+        {
             var cardEntity = _mapper.Map<Domain.Entities.Card>(card);
 
             string cardLastDigits = card.Number.Substring(card.Number.Length - 4);
             _logger.LogInformation("Making a payment with card ending with {cardLastDigits}", cardLastDigits);
-            
+
             var bankEndpoint = _config.GetValue<string>("Endpoints:Bank");
 
             var bankResponse = await _repositoryWrapper.PaymentGateways.GetBankResponse(cardEntity, bankEndpoint);
@@ -102,7 +103,8 @@ namespace PaymentGateway.API.Controllers
 
             _repositoryWrapper.Cards.Add(cardEntity);
 
-            Payment paymentEntity = new Payment() { 
+            Payment paymentEntity = new Payment()
+            {
                 Id = bankResponse.Id,
                 Status = bankResponse.Status,
                 Card = cardEntity

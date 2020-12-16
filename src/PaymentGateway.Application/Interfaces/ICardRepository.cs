@@ -1,12 +1,12 @@
-﻿using PaymentGateway.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using PaymentGateway.Domain.Entities;
 
 namespace PaymentGateway.Application.Interfaces
 {
-    public interface ICardRepository: IRepository<Card>
+    public interface ICardRepository : IRepository<Card>
     {
         Task<IEnumerable<Card>> GetAllCardPayments();
 

@@ -1,4 +1,4 @@
-﻿using PaymentGateway.Domain.Entities;
+using PaymentGateway.Domain.Entities;
 using Xunit;
 
 namespace PaymentGateway.UnitTests.Entities

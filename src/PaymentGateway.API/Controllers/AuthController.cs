@@ -1,10 +1,3 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-using PaymentGateway.Application.Interfaces;
-using PaymentGateway.Application.Models;
-using PaymentGateway.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,6 +5,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using PaymentGateway.Application.Interfaces;
+using PaymentGateway.Application.Models;
+using PaymentGateway.Domain.Entities;
 
 namespace PaymentGateway.API.Controllers
 {
@@ -23,14 +23,14 @@ namespace PaymentGateway.API.Controllers
         private readonly ILogger<AuthController> _logger;
         private readonly ITokenService _tokenService;
 
-        public AuthController(IRepositoryWrapper repositoryWrapper, ILogger<AuthController> logger, 
+        public AuthController(IRepositoryWrapper repositoryWrapper, ILogger<AuthController> logger,
                                 ITokenService tokenService)
         {
             _repositoryWrapper = repositoryWrapper ??
                 throw new ArgumentNullException(nameof(repositoryWrapper));
             _logger = logger ??
                 throw new ArgumentNullException(nameof(logger));
-            _tokenService = tokenService ?? 
+            _tokenService = tokenService ??
                 throw new ArgumentNullException(nameof(tokenService));
         }
 

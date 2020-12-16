@@ -24,14 +24,18 @@ For the purpose of testing, it makes a call to the BankSimulator endpoint. In pr
   }`
 
 To run this project, navigate to the project directory and run the following command:
-```dotnet run```
+```console
+> dotnet run
+```
 * Open the browser: ```http://localhost:5000```
 
 #### BankSimulator
 This project simulates a fake bank that for testing purposes. When a merchant make a call to it returns a unique id and status (successful or declined).
 
 To run this project, navigate to the project directory and run the following command:
-```dotnet run```
+```console
+> dotnet run
+```
 * Open the browser: ```http://localhost:5050```
 
 
@@ -40,8 +44,12 @@ To run this project, navigate to the project directory and run the following com
 #### Docker implementation
 To run the application on Docker, run the following commands:
 
-1. ```docker-compose build```
-2. ```docker-compose up```
+1. ```console
+   > docker-compose build
+   ```
+2. ```console
+   > docker-compose up
+   ```
 
 #### Future improvement
 * Obtaining application metrics using tool such as, Prometheus and Grafana

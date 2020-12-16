@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PaymentGateway.Infrastructure.Persistence;
 using PaymentGateway.Infrastructure.Services;
-using System.Net.Http;
 
 namespace PaymentGateway.IntegrationTests.Repositories
 {
@@ -48,7 +48,7 @@ namespace PaymentGateway.IntegrationTests.Repositories
             _paymentDbContext = new PaymentDbContext(paymentOptions);
             _userDbContext = new UserDbContext(userOptions);
 
-            return new RepositoryWrapper(_paymentDbContext, _userDbContext,  httpClientFactory);
+            return new RepositoryWrapper(_paymentDbContext, _userDbContext, httpClientFactory);
         }
     }
 }
