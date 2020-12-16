@@ -71,26 +71,3 @@ jobs:
               file: "!**/.nuget/packages/**/*.*"
               flags: ${{ runner.os }},${{ matrix.dotnet.framework }}
 
-    release:
-      name: Create Github Release
-      if: contains(github.ref, 'tags/v')
-      needs: [lint, test]
-      runs-on: ubuntu-latest
-      steps:
-        - name: Create Release
-          id: create_release
-          uses: actions/create-release@v1
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-            tag_name: ${{ github.ref }}
-            release_name: Release ${{ github.ref }}
-            draft: false
-            prerelease: false
-        - name: Output Release URL File
-          run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
-        - name: Save Release URL File for publish
-          uses: actions/upload-artifact@v2.2.1
-          with:
-            name: release_url
-            path: release_url.txt
