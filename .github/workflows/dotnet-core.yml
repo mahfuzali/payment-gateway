@@ -36,7 +36,7 @@ jobs:
           run: dotnet format --check --dry-run
 
     build-and-test:
-        name: Debug Build & Test
+        name: Build & Test
         runs-on: ${{ matrix.os }}
         strategy:
           matrix:
