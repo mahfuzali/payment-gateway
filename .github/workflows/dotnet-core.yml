@@ -74,7 +74,7 @@ jobs:
     release:
       name: Create Github Release
       if: contains(github.ref, 'tags/v')
-      needs: [lint, test]
+      needs: [lint, build-and-test]
       runs-on: ubuntu-latest
       steps:
         - name: Create Release
@@ -89,3 +89,8 @@ jobs:
             prerelease: false
         - name: Output Release URL File
           run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
+        - name: Save Release URL File for publish
+          uses: actions/upload-artifact@v2.2.1
+          with:
+            name: release_url
+            path: release_url.txt
