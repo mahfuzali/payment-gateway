@@ -1,4 +1,5 @@
 [![Actions Status](https://github.com/mahfuzali/payment-gateway/workflows/.NET%20Core/badge.svg)](https://github.com/mahfuzali/payment-gateway/actions)
+[![codecov](https://codecov.io/gh/mahfuzali/payment-gateway/branch/master/graph/badge.svg?token=6SDC7C0QYM)](https://codecov.io/gh/mahfuzali/payment-gateway)
 
 # Payment Gateway
 
