@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,12 +19,13 @@ namespace BankSimulator.Controllers
             decimal balance = 1000.00m;
             string status = "successful";
 
-            if (balance - card.Amount < 0) {
+            if (balance - card.Amount < 0)
+            {
                 status = "declined";
             }
 
             await Task.Delay(500);
-               
+
             return Ok(new
             {
                 Id = Guid.NewGuid(),

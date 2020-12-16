@@ -1,11 +1,12 @@
-﻿using AutoMapper;
+using AutoMapper;
 using PaymentGateway.Application.Helpers;
 
 namespace PaymentGateway.Application.Profiles
 {
     public class PaymentProfile : Profile
     {
-        public PaymentProfile() {
+        public PaymentProfile()
+        {
 
             CreateMap<Domain.Entities.Card, Models.CardDto>()
                 .ForMember(

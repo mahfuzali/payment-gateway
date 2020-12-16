@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PaymentGateway.Domain.Entities;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
-using System.Threading;
 using PaymentGateway.Application.Interfaces;
+using PaymentGateway.Domain.Entities;
 
 namespace PaymentGateway.Infrastructure.Persistence
 {
@@ -24,11 +24,12 @@ namespace PaymentGateway.Infrastructure.Persistence
         {
             return await base.SaveChangesAsync(cancellationToken);
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             modelBuilder.Entity<Card>().HasKey(c => c.Number);
-            
+
             modelBuilder.Entity<Payment>().HasKey(c => c.Id);
 
             modelBuilder.Entity<Payment>().HasOne(c => c.Card);

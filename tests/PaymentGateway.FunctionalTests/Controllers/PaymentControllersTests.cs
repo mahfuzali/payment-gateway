@@ -1,11 +1,11 @@
-﻿using FluentAssertions;
+using System;
+using System.Net;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Newtonsoft.Json;
 using PaymentGateway.API;
 using PaymentGateway.Application.Models;
 using PaymentGateway.FunctionalTests.Controllers;
-using System;
-using System.Net;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace PaymentGateway.FunctionalTests.Tests
@@ -30,7 +30,7 @@ namespace PaymentGateway.FunctionalTests.Tests
         //    var payment = JsonConvert.DeserializeObject<PaymentDto>(
         //      await response.Content.ReadAsStringAsync()
         //    );
-            
+
         //    // Assert
         //    payment.Should().NotBeNull();
         //    payment.Id.Should().Be(guid);

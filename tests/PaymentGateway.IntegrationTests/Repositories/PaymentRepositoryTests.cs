@@ -1,23 +1,24 @@
-﻿using FluentAssertions;
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Moq;
 using Newtonsoft.Json;
 using NSubstitute;
 using PaymentGateway.Application.Models;
 using PaymentGateway.Domain.Entities;
 using PaymentGateway.IntegrationTests.Tests;
-using System;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace PaymentGateway.IntegrationTests.Repositories
 {
-    public class PaymentRepositoryTests: RepositoryTestsSetup
+    public class PaymentRepositoryTests : RepositoryTestsSetup
     {
         [Fact]
-        public async Task Add_CardAsync() {
+        public async Task Add_CardAsync()
+        {
             // Arrange
             Card card = new Card()
             {

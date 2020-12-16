@@ -1,5 +1,6 @@
-﻿
 
+
+using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,6 @@ using PaymentGateway.API;
 using PaymentGateway.Application.Interfaces;
 using PaymentGateway.Infrastructure.Persistence;
 using PaymentGateway.Infrastructure.Services;
-using System;
 
 namespace PaymentGateway.FunctionalTests.Controllers
 {
@@ -17,7 +17,8 @@ namespace PaymentGateway.FunctionalTests.Controllers
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureServices(async services => {
+            builder.ConfigureServices(async services =>
+            {
                 // Create a new service provider.
                 var serviceProvider = new ServiceCollection()
                     .AddEntityFrameworkInMemoryDatabase()

@@ -1,4 +1,4 @@
-﻿namespace PaymentGateway.Application.Models
+namespace PaymentGateway.Application.Models
 {
     public class CardViewModel : CardDto
     {

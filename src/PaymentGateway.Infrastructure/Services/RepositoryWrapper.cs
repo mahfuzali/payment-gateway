@@ -1,10 +1,10 @@
-﻿using PaymentGateway.Application.Interfaces;
-using PaymentGateway.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
+using PaymentGateway.Application.Interfaces;
+using PaymentGateway.Infrastructure.Persistence;
 
 namespace PaymentGateway.Infrastructure.Services
 {
@@ -16,7 +16,8 @@ namespace PaymentGateway.Infrastructure.Services
         private IHttpClientFactory _httpClientFactory;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public RepositoryWrapper(PaymentDbContext paymentContext, UserDbContext userDbContext, IHttpClientFactory httpClientFactory) {
+        public RepositoryWrapper(PaymentDbContext paymentContext, UserDbContext userDbContext, IHttpClientFactory httpClientFactory)
+        {
             _paymentContext = paymentContext ?? throw new ArgumentNullException(nameof(paymentContext));
             _userDbContext = userDbContext ?? throw new ArgumentNullException(nameof(userDbContext));
 
@@ -24,9 +25,9 @@ namespace PaymentGateway.Infrastructure.Services
                     throw new ArgumentNullException(nameof(httpClientFactory));
 
             Users = new UserRepository(_userDbContext);
-            
+
             Cards = new CardRepository(_paymentContext);
-            
+
             PaymentGateways = new PaymentGatewayRepository(_paymentContext, _httpClientFactory);
         }
 

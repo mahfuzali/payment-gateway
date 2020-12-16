@@ -1,20 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PaymentGateway.Application.Interfaces;
-using PaymentGateway.Domain.Entities;
-using PaymentGateway.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using PaymentGateway.Application.Interfaces;
+using PaymentGateway.Domain.Entities;
+using PaymentGateway.Infrastructure.Persistence;
 
 namespace PaymentGateway.Infrastructure.Services
 {
     public class CardRepository : Repository<Card>, ICardRepository
     {
-        public CardRepository(PaymentDbContext context) 
+        public CardRepository(PaymentDbContext context)
             : base(context)
-        { 
+        {
         }
 
         public PaymentDbContext ApplicationDbContext
