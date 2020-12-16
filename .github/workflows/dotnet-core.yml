@@ -16,7 +16,11 @@ on:
 
 
 env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_NOLOGO: true
+  NUGET_XMLDOC_MODE: skip
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
 
 jobs:
     lint:
@@ -40,7 +44,7 @@ jobs:
         runs-on: ${{ matrix.os }}
         strategy:
           matrix:
-            os: [ubuntu-latest, windows-latest, macos-latest]
+            os: [ubuntu-latest, windows-latest]
             dotnet: [ { sdk: "5.0", framework: "net5.0" } ]
 
         steps:
@@ -102,7 +106,7 @@ jobs:
       runs-on: ubuntu-latest
       strategy:
         matrix:
-          rid: [win-x64, linux-x64, osx-x64]
+          rid: [win-x64, linux-x64]
           # see also https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json
           dotnet: [ { sdk: "5.0", framework: "net5.0" } ]
       steps:
