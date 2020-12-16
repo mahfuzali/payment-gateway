@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PaymentGateway.Application.Interfaces;
 using PaymentGateway.Application.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PaymentGateway.API.Controllers
 {
@@ -57,7 +57,7 @@ namespace PaymentGateway.API.Controllers
             string accessToken = tokenApiModel.AccessToken;
             string refreshToken = tokenApiModel.RefreshToken;
             var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
-            
+
             var username = principal.Identity.Name; //this is mapped to the Name claim by default
 
             var user = _repositoryWrapper.Users.SingleOrDefault(u => u.Username == username);
@@ -70,7 +70,7 @@ namespace PaymentGateway.API.Controllers
             var newAccessToken = _tokenService.GenerateAccessToken(principal.Claims);
             var newRefreshToken = _tokenService.GenerateRefreshToken();
             user.RefreshToken = newRefreshToken;
-            
+
             _repositoryWrapper.Users.Update(user);
 
             return new ObjectResult(new
@@ -99,7 +99,8 @@ namespace PaymentGateway.API.Controllers
 
             var user = _repositoryWrapper.Users.SingleOrDefault(u => u.Username == username);
 
-            if (user == null) return BadRequest();
+            if (user == null)
+                return BadRequest();
 
             user.RefreshToken = null;
 

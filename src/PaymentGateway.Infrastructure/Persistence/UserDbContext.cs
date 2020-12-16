@@ -1,6 +1,3 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PaymentGateway.Application.Interfaces;
-using PaymentGateway.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +5,13 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using PaymentGateway.Application.Interfaces;
+using PaymentGateway.Domain.Entities;
 
 namespace PaymentGateway.Infrastructure.Persistence
 {
-    public class UserDbContext: DbContext, IUserDbContext
+    public class UserDbContext : DbContext, IUserDbContext
     {
         public UserDbContext(DbContextOptions<UserDbContext> options)
                 : base(options)

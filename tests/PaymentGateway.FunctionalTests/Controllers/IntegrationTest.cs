@@ -1,8 +1,8 @@
-﻿using PaymentGateway.API;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using PaymentGateway.API;
 using Xunit;
 
 namespace PaymentGateway.FunctionalTests.Controllers

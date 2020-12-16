@@ -1,18 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using PaymentGateway.Application.Interfaces;
-using PaymentGateway.Application.Models;
-using PaymentGateway.Domain.Entities;
-using PaymentGateway.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using PaymentGateway.Application.Interfaces;
+using PaymentGateway.Application.Models;
+using PaymentGateway.Domain.Entities;
+using PaymentGateway.Infrastructure.Persistence;
 
 namespace PaymentGateway.Infrastructure.Services
 {
-    public class PaymentGatewayRepository: Repository<Payment>, IPaymentGatewayRepository 
+    public class PaymentGatewayRepository : Repository<Payment>, IPaymentGatewayRepository
     {
         private readonly IHttpClientFactory _httpClientFactory;
 

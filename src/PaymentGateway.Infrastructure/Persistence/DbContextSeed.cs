@@ -1,15 +1,17 @@
-﻿using PaymentGateway.Domain.Entities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using PaymentGateway.Domain.Entities;
 
 namespace PaymentGateway.Infrastructure.Persistence
 {
     public static class DbContextSeed
     {
-        public static async Task SeedPaymentDataAsync(PaymentDbContext context) {
+        public static async Task SeedPaymentDataAsync(PaymentDbContext context)
+        {
 
-            Card card = new Card() {
+            Card card = new Card()
+            {
                 Number = "0123456789101112",
                 ExpiryMonth = 01,
                 ExpiryYear = 2025,
@@ -25,7 +27,7 @@ namespace PaymentGateway.Infrastructure.Persistence
                 Card = card
             };
 
-            if (!context.Cards.Any()) 
+            if (!context.Cards.Any())
             {
                 context.Cards.Add(card);
             }
