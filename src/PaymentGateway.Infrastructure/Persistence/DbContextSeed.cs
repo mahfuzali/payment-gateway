@@ -10,7 +10,7 @@ namespace PaymentGateway.Infrastructure.Persistence
         public static async Task SeedPaymentDataAsync(PaymentDbContext context)
         {
 
-            Card card = new Card()
+            var card = new Card()
             {
                 Number = "0123456789101112",
                 ExpiryMonth = 01,
@@ -20,7 +20,7 @@ namespace PaymentGateway.Infrastructure.Persistence
                 CVV = "765"
             };
 
-            Payment payment = new Payment()
+            var payment = new Payment()
             {
                 Id = Guid.Parse("8b51ea22-adbf-46f3-9f90-cf9d9d534d45"),
                 Status = "successful",
