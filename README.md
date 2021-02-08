@@ -1,5 +1,4 @@
 [![Actions Status](https://github.com/mahfuzali/payment-gateway/workflows/.NET%20Core/badge.svg)](https://github.com/mahfuzali/payment-gateway/actions)
-[![codecov](https://codecov.io/gh/mahfuzali/payment-gateway/branch/master/graph/badge.svg?token=6SDC7C0QYM)](https://codecov.io/gh/mahfuzali/payment-gateway)
 
 # Payment Gateway
 
@@ -8,9 +7,11 @@ An API based application that will allow a merchant to offer a way for their sho
 
 Shopper -> Merchant -> Payment Gateway -> Bank
 
-### Technology used so far:
+### Technologies:
 - .NET 5
 - PostgreSQL 
+- Entity Framework Core 5
+- Automapper
 - Docker
 
 
@@ -18,26 +19,30 @@ Shopper -> Merchant -> Payment Gateway -> Bank
 
 This project is a .NET Core Web API that process a payment through the payment gateway. When a shopper makes a call to the merchant it subsequently makes a call to the acquiring bank to obtain the payment with unique id and status (successful or declined).
 
-For the purpose of testing, it makes a call to the BankSimulator endpoint. In production, this endpoint can be changed to real bank endpoint. Just go to the project's *appsetting.json* and change the following part:
+For the purpose of testing, this payment gateway makes a call to the simulated bank endpoint (see ```BankSimulator.API``` project). In production, this endpoint can be changed to actual bank endpoint. Just go to the project's *appsetting.json* and change the following part:
   
-  `"Endpoints": {
-    "Bank": "http://localhost:5050/api/FakeBank"
-  }`
+  ```console
+    "Endpoints": {
+      "Bank": "http://localhost:5050/api/FakeBank"
+    }
+  ```
 
 To run this project, navigate to the project directory and run the following command:
 ```console
-> dotnet run
+  > dotnet build
+  > dotnet run
 ```
-* Open the browser: ```http://localhost:5000```
+* Open the browser: `http://localhost:5000`
 
 #### BankSimulator
-This project simulates a fake bank that for testing purposes. When a merchant make a call to it returns a unique id and status (successful or declined).
+This project simulates a fake bank for testing purposes. When a merchant make a call, it returns a unique id and status i.e. successful or declined.
 
 To run this project, navigate to the project directory and run the following command:
 ```console
-> dotnet run
+  > dotnet build
+  > dotnet run
 ```
-* Open the browser: ```http://localhost:5050```
+* Open the browser: ``http://localhost:5050``
 
 
 #### Note: In order for payment gateway to run, bank simulator also needs to be run at the same time.
@@ -45,14 +50,13 @@ To run this project, navigate to the project directory and run the following com
 #### Docker implementation
 To run the application on Docker, run the following commands:
 
-1. ```console
-   > docker-compose build
-   ```
-2. ```console
-   > docker-compose up
-   ```
+```console
+  > docker-compose build
+  > docker-compose up
+```
 
-#### Future improvement
+
+#### Future improvements
 * Obtaining application metrics using tool such as, Prometheus and Grafana
 * Docker containerization and kubernetes orchestration
 * Continous deployment to cloud environment i.e. AWS, GCP or Azure
