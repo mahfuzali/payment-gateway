@@ -22,10 +22,15 @@ services:
       dockerfile: src/PaymentGateway.API/Dockerfile
     ports:
       - 5000:80
+      - 5001:443
     depends_on:
       - postgresdb
     environment:
-      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
 
   postgresdb: # this is used as the host in your connection string 
     image: postgres
