@@ -10,7 +10,7 @@ using PaymentGateway.Infrastructure.Persistence;
 namespace PaymentGateway.Infrastructure.Persistence.Migrations.UserDbMigration
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20201125141025_InitialUserDbMigration")]
+    [Migration("20210209111152_InitialUserDbMigration")]
     partial class InitialUserDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

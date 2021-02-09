@@ -1,9 +1,9 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS base
+FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
 WORKDIR /src
 COPY ["src/BankSimulator/BankSimulator.csproj", "src/BankSimulator/"]
 RUN dotnet restore "src/BankSimulator/BankSimulator.csproj"
