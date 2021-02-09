@@ -26,12 +26,15 @@ jobs:
     lint:
       name: Lint
       runs-on: ubuntu-latest
+      strategy:
+          matrix:
+            dotnet: [ { sdk: "5.0", framework: "net5.0" } ]
       steps:
         - uses: actions/checkout@v2
         - name: Setup .NET Core SDK
           uses: actions/setup-dotnet@v1.7.2
           with:
-            dotnet-version: 5.0.100
+            dotnet-version: ${{ matrix.dotnet.sdk }}
         - name: Restore Tool
           run: dotnet tool restore
         - name: Add Problem Matcher for dotnet-format
