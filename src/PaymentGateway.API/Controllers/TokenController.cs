@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PaymentGateway.Application.Interfaces;
@@ -42,10 +38,10 @@ namespace PaymentGateway.API.Controllers
         ///        "refreshToken": "refreshToken"
         ///     }
         /// </remarks>
-        /// <param name="tokenApiModel"></param>  
+        /// <param name="tokenApiModel"></param>
         /// <returns>Retrievs JWT and refresh token</returns>
         /// <response code="200">Generate a new access token and refresh token</response>
-        /// <response code="400">Invalid request</response>  
+        /// <response code="400">Invalid request</response>
         [HttpPost]
         [Route("refresh")]
         public IActionResult Refresh(TokenApiModel tokenApiModel)
@@ -90,7 +86,7 @@ namespace PaymentGateway.API.Controllers
         ///
         /// </remarks>
         /// <response code="200">Successfully revoked</response>
-        /// <response code="404">Unsucessful</response>  
+        /// <response code="404">Unsucessful</response>
         [HttpPost, Authorize]
         [Route("revoke")]
         public IActionResult Revoke()

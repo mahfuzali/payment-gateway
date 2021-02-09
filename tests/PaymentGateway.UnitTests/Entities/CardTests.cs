@@ -44,8 +44,6 @@ namespace PaymentGateway.UnitTests.Entities
             Assert.IsType<decimal>(card.Amount);
             Assert.IsType<string>(card.Currency);
             Assert.IsType<string>(card.CVV);
-
         }
-
     }
 }

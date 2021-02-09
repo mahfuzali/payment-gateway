@@ -24,6 +24,5 @@ namespace PaymentGateway.Domain.Entities
 
         [Required]
         public string CVV { get; set; }
-
     }
 }

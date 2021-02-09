@@ -1,12 +1,5 @@
-using System;
-using System.Net;
-using System.Threading.Tasks;
-using FluentAssertions;
-using Newtonsoft.Json;
 using PaymentGateway.API;
-using PaymentGateway.Application.Models;
 using PaymentGateway.FunctionalTests.Controllers;
-using Xunit;
 
 namespace PaymentGateway.FunctionalTests.Tests
 {
@@ -36,6 +29,5 @@ namespace PaymentGateway.FunctionalTests.Tests
         //    payment.Id.Should().Be(guid);
         //    payment.Status.Should().Be("successful");
         //}
-
     }
 }

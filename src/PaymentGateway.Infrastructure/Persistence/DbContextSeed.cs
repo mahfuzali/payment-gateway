@@ -9,7 +9,6 @@ namespace PaymentGateway.Infrastructure.Persistence
     {
         public static async Task SeedPaymentDataAsync(PaymentDbContext context)
         {
-
             var card = new Card()
             {
                 Number = "0123456789101112",

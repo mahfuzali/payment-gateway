@@ -7,7 +7,6 @@ namespace PaymentGateway.Application.Profiles
     {
         public PaymentProfile()
         {
-
             CreateMap<Domain.Entities.Card, Models.CardDto>()
                 .ForMember(
                     dest => dest.Expiry,
@@ -37,7 +36,6 @@ namespace PaymentGateway.Application.Profiles
                 .ForMember(
                     dest => dest.Card,
                     opt => opt.MapFrom(src => src.Card)).ReverseMap();
-
         }
     }
 }
