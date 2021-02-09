@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PaymentGateway.Infrastructure.Persistence.Migrations.UserDbMigration

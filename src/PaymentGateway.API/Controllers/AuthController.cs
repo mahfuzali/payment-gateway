@@ -1,17 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using PaymentGateway.Application.Interfaces;
 using PaymentGateway.Application.Models;
-using PaymentGateway.Domain.Entities;
 
 namespace PaymentGateway.API.Controllers
 {
@@ -46,10 +40,10 @@ namespace PaymentGateway.API.Controllers
         ///        "password": "password"
         ///     }
         /// </remarks>
-        /// <param name="loginModel"></param>  
+        /// <param name="loginModel"></param>
         /// <returns>Retrievs JWT and refresh token</returns>
         /// <response code="200">JWT and refresh token</response>
-        /// <response code="401">Invalid credentials</response>  
+        /// <response code="401">Invalid credentials</response>
         [HttpPost, Route("login")]
         public async Task<IActionResult> LoginAsync(LoginModel loginModel)
         {
@@ -65,7 +59,6 @@ namespace PaymentGateway.API.Controllers
                 _logger.LogWarning("Did not find {login.Username}", loginModel.Username);
                 return Unauthorized();
             }
-
 
             var claims = new List<Claim>
             {

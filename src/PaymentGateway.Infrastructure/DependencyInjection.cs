@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +16,6 @@ namespace PaymentGateway.Infrastructure
 
             services.AddDbContext<UserDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("UserDbConnection"),
                         b => b.MigrationsAssembly(typeof(UserDbContext).Assembly.FullName)));
-
 
             services.AddScoped<IPaymentDbContext>(provider => provider.GetService<PaymentDbContext>());
             services.AddScoped<IUserDbContext>(provider => provider.GetService<UserDbContext>());

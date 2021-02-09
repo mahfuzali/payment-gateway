@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BankSimulator.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankSimulator.Controllers
@@ -12,7 +9,6 @@ namespace BankSimulator.Controllers
     [ApiController]
     public class FakeBankController : ControllerBase
     {
-
         [HttpPost]
         public async Task<IActionResult> Withdraw(Card card)
         {

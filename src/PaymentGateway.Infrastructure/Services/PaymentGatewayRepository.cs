@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +20,6 @@ namespace PaymentGateway.Infrastructure.Services
         {
             _httpClientFactory = httpClientFactory ??
                     throw new ArgumentNullException(nameof(httpClientFactory));
-
         }
 
         public PaymentDbContext ApplicationDbContext
@@ -57,7 +55,6 @@ namespace PaymentGateway.Infrastructure.Services
             }
 
             return await ApplicationDbContext.Payments.Include(c => c.Card).FirstOrDefaultAsync(p => p.Id == paymentId);
-
         }
     }
 }

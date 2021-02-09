@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PaymentGateway.Application.Interfaces;
@@ -31,6 +29,5 @@ namespace PaymentGateway.Infrastructure.Services
 
             return await UserDbContext.Logins.Where(u => u.Username == username && u.Password == password).FirstOrDefaultAsync();
         }
-
     }
 }

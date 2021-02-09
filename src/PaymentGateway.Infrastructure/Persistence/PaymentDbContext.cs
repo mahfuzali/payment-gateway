@@ -2,8 +2,6 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 using PaymentGateway.Application.Interfaces;
 using PaymentGateway.Domain.Entities;
 
@@ -24,6 +22,7 @@ namespace PaymentGateway.Infrastructure.Persistence
         {
             return await base.SaveChangesAsync(cancellationToken);
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
@@ -36,6 +35,5 @@ namespace PaymentGateway.Infrastructure.Persistence
 
             base.OnModelCreating(modelBuilder);
         }
-
     }
 }

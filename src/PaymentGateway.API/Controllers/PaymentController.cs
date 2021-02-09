@@ -43,10 +43,10 @@ namespace PaymentGateway.API.Controllers
         ///     GET  /api/payment/8b51ea22-adbf-46f3-9f90-cf9d9d534d45
         ///
         /// </remarks>
-        /// <param name="transactionId"></param>  
+        /// <param name="transactionId"></param>
         /// <returns>Retrievs a previous payment</returns>
         /// <response code="200">Returns the stored payment</response>
-        /// <response code="404">If the payment is null</response>  
+        /// <response code="404">If the payment is null</response>
         [HttpGet("{transactionId}", Name = "GetPayment")]
         public async Task<IActionResult> GetPayment(Guid transactionId)
         {
@@ -79,10 +79,10 @@ namespace PaymentGateway.API.Controllers
         ///     }
         ///
         /// </remarks>
-        /// <param name="card"></param> 
+        /// <param name="card"></param>
         /// <returns>Returns the bank's response containing unique identifier and a status indicating payment was successful or not</returns>
         /// <response code="200">Returns the bank response with id and status</response>
-        /// <response code="404">If the bank response is null</response>  
+        /// <response code="404">If the bank response is null</response>
         [HttpPost]
         public async Task<IActionResult> PostCardPayment(CardDto card)
         {

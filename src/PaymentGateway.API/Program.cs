@@ -11,6 +11,7 @@ using PaymentGateway.Infrastructure.Persistence;
 namespace PaymentGateway.API
 {
 #pragma warning disable CS1591
+
     public class Program
     {
         public async static Task Main(string[] args)
@@ -19,7 +20,6 @@ namespace PaymentGateway.API
             ThreadPool.SetMaxThreads(Environment.ProcessorCount, Environment.ProcessorCount);
 
             var host = CreateHostBuilder(args).Build();
-
 
             using (var scope = host.Services.CreateScope())
             {
@@ -33,7 +33,6 @@ namespace PaymentGateway.API
                     appDbContext.Database.Migrate();
 
                     await DbContextSeed.SeedPaymentDataAsync(appDbContext);
-
 
                     var userDbContext = services.GetRequiredService<UserDbContext>();
 
@@ -66,5 +65,6 @@ namespace PaymentGateway.API
                     webBuilder.UseStartup<Startup>();
                 });
     }
+
 #pragma warning restore CS1591
 }

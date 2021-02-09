@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PaymentGateway.Application.Interfaces;
@@ -25,7 +24,6 @@ namespace PaymentGateway.Infrastructure.Services
         public async Task<IEnumerable<Card>> GetAllCardPayments()
         {
             return await ApplicationDbContext.Cards.OrderBy(o => o.Number).ToListAsync();
-
         }
 
         public async Task<Card> GetCard(string cardNumber)

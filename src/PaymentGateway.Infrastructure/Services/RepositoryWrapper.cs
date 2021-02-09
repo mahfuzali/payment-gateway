@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using PaymentGateway.Application.Interfaces;
 using PaymentGateway.Infrastructure.Persistence;

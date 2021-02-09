@@ -38,7 +38,6 @@ namespace PaymentGateway.IntegrationTests.Repositories
             return builder.Options;
         }
 
-
         protected RepositoryWrapper GetRepository(IHttpClientFactory httpClientFactory)
         {
             var paymentOptions = CreatePaymentContextOptions();
