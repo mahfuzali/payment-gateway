@@ -65,7 +65,7 @@ To run this project, navigate to the project directory and run the following com
 ```
 Open the browser: `http://localhost:5050`
 
-**Note: In order for payment gateway to run, bank simulator also needs to be run at the same time.**
+*:bangbang: Note: In order for payment gateway to run, bank simulator also needs to be run at the same time.*
 
 ### Docker implementation
 To run the application on Docker, run the following commands:
@@ -74,6 +74,9 @@ To run the application on Docker, run the following commands:
   > docker-compose build
   > docker-compose up
 ```
+
+### pgAdmin
+If you run the application on Dokcer, pgAdmin is hosted on `http://localhost:5454/`
 
 ## Future improvements
 * Obtaining application metrics using tool such as, Prometheus and Grafana
