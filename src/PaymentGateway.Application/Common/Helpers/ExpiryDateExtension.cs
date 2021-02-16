@@ -1,4 +1,4 @@
-namespace PaymentGateway.Application.Helpers
+namespace PaymentGateway.Application.Common.Helpers
 {
     public static class ExpiryDateExtension
     {

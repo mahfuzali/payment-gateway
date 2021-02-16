@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace PaymentGateway.Application.Interfaces
+namespace PaymentGateway.Application.Common.Interfaces
 {
     public interface ITokenService
     {

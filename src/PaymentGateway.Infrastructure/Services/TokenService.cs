@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using PaymentGateway.Application.Interfaces;
+using PaymentGateway.Application.Common.Interfaces;
 
 namespace PaymentGateway.Infrastructure.Services
 {

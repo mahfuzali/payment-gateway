@@ -1,7 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Threading;
-using PaymentGateway.Application.Interfaces;
+using PaymentGateway.Application.Common.Interfaces;
 using PaymentGateway.Infrastructure.Persistence;
 
 namespace PaymentGateway.Infrastructure.Services

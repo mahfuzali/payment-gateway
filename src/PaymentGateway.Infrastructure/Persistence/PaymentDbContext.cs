@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using PaymentGateway.Application.Interfaces;
+using PaymentGateway.Application.Common.Interfaces;
 using PaymentGateway.Domain.Entities;
 
 namespace PaymentGateway.Infrastructure.Persistence
@@ -19,9 +19,8 @@ namespace PaymentGateway.Infrastructure.Persistence
         public DbSet<Payment> Payments { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
-        {
-            return await base.SaveChangesAsync(cancellationToken);
-        }
+                        => await base.SaveChangesAsync(cancellationToken);
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

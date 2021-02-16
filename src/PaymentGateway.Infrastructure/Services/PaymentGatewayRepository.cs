@@ -4,8 +4,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using PaymentGateway.Application.Interfaces;
-using PaymentGateway.Application.Models;
+using PaymentGateway.Application.Common.Interfaces;
+using PaymentGateway.Application.Common.Models;
 using PaymentGateway.Domain.Entities;
 using PaymentGateway.Infrastructure.Persistence;
 

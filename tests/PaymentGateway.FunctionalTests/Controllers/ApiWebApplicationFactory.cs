@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PaymentGateway.API;
-using PaymentGateway.Application.Interfaces;
+using PaymentGateway.Application.Common.Interfaces;
 using PaymentGateway.Infrastructure.Persistence;
 using PaymentGateway.Infrastructure.Services;
 

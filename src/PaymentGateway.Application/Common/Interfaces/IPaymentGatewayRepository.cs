@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using PaymentGateway.Application.Models;
+using PaymentGateway.Application.Common.Models;
 using PaymentGateway.Domain.Entities;
 
-namespace PaymentGateway.Application.Interfaces
+namespace PaymentGateway.Application.Common.Interfaces
 {
     public interface IPaymentGatewayRepository : IRepository<Payment>
     {

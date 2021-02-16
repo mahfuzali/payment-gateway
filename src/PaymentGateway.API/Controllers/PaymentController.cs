@@ -1,12 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PaymentGateway.Application.Interfaces;
-using PaymentGateway.Application.Models;
+using PaymentGateway.Application.Common.Interfaces;
+using PaymentGateway.Application.Common.Models;
+using PaymentGateway.Application.Payments.Queries.GetPayments;
 using PaymentGateway.Domain.Entities;
 
 namespace PaymentGateway.API.Controllers
@@ -14,7 +16,7 @@ namespace PaymentGateway.API.Controllers
     [Route("api/payment")]
     [ApiController]
     [Authorize]
-    public class PaymentController : ControllerBase
+    public class PaymentController : ApiControllerBase
     {
         private readonly IRepositoryWrapper _repositoryWrapper;
         private readonly IMapper _mapper;
@@ -60,8 +62,13 @@ namespace PaymentGateway.API.Controllers
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<Application.Models.PaymentDto>(paymentEntity));
+            return Ok(_mapper.Map<PaymentDto>(paymentEntity));
         }
+
+        [HttpGet]
+        public async Task<IEnumerable<PaymentDto>> GetAllPayments() 
+            => await Mediator.Send(new GetPaymentsQuery());
+
 
         /// <summary>
         /// Process a payment.

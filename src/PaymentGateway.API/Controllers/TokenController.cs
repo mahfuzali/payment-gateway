@@ -2,14 +2,14 @@ using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PaymentGateway.Application.Interfaces;
-using PaymentGateway.Application.Models;
+using PaymentGateway.Application.Common.Interfaces;
+using PaymentGateway.Application.Common.Models;
 
 namespace PaymentGateway.API.Controllers
 {
     [Route("api/token")]
     [ApiController]
-    public class TokenController : ControllerBase
+    public class TokenController : ApiControllerBase
     {
         private readonly IRepositoryWrapper _repositoryWrapper;
         private readonly ILogger<TokenController> _logger;

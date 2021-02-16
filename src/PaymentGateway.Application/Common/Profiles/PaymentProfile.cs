@@ -1,7 +1,7 @@
 using AutoMapper;
-using PaymentGateway.Application.Helpers;
+using PaymentGateway.Application.Common.Helpers;
 
-namespace PaymentGateway.Application.Profiles
+namespace PaymentGateway.Application.Common.Profiles
 {
     public class PaymentProfile : Profile
     {

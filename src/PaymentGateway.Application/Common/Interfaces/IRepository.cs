@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace PaymentGateway.Application.Interfaces
+namespace PaymentGateway.Application.Common.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : class
     {

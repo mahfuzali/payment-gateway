@@ -4,20 +4,20 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PaymentGateway.Application.Interfaces;
-using PaymentGateway.Application.Models;
+using PaymentGateway.Application.Common.Interfaces;
+using PaymentGateway.Application.Common.Models;
 
 namespace PaymentGateway.API.Controllers
 {
     [Route("api/auth")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthenticationController : ApiControllerBase
     {
         private readonly IRepositoryWrapper _repositoryWrapper;
-        private readonly ILogger<AuthController> _logger;
+        private readonly ILogger<AuthenticationController> _logger;
         private readonly ITokenService _tokenService;
 
-        public AuthController(IRepositoryWrapper repositoryWrapper, ILogger<AuthController> logger,
+        public AuthenticationController(IRepositoryWrapper repositoryWrapper, ILogger<AuthenticationController> logger,
                                 ITokenService tokenService)
         {
             _repositoryWrapper = repositoryWrapper ??

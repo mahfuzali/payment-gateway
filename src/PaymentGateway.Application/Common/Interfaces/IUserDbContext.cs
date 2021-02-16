@@ -3,13 +3,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PaymentGateway.Domain.Entities;
 
-namespace PaymentGateway.Application.Interfaces
+namespace PaymentGateway.Application.Common.Interfaces
 {
-    public interface IPaymentDbContext
+    public interface IUserDbContext
     {
-        public DbSet<Card> Cards { get; set; }
-
-        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Login> Logins { get; set; }
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

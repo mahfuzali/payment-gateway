@@ -7,7 +7,7 @@ using FluentAssertions;
 using Moq;
 using Newtonsoft.Json;
 using NSubstitute;
-using PaymentGateway.Application.Models;
+using PaymentGateway.Application.Common.Models;
 using PaymentGateway.Domain.Entities;
 using PaymentGateway.IntegrationTests.Tests;
 using Xunit;

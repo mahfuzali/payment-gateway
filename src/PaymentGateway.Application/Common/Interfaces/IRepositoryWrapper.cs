@@ -1,6 +1,6 @@
 using System;
 
-namespace PaymentGateway.Application.Interfaces
+namespace PaymentGateway.Application.Common.Interfaces
 {
     public interface IRepositoryWrapper : IDisposable
     {
