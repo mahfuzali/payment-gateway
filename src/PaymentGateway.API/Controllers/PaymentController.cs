@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using PaymentGateway.Application.Common.Helpers;
 using PaymentGateway.Application.Common.Interfaces;
 using PaymentGateway.Application.Common.Models;
+using PaymentGateway.Application.Payments.Queries.GetPayment;
 using PaymentGateway.Application.Payments.Queries.GetPayments;
 using PaymentGateway.Domain.Entities;
 
@@ -49,25 +51,26 @@ namespace PaymentGateway.API.Controllers
         /// <returns>Retrievs a previous payment</returns>
         /// <response code="200">Returns the stored payment</response>
         /// <response code="404">If the payment is null</response>
-        [HttpGet("{transactionId}", Name = "GetPayment")]
-        public async Task<IActionResult> GetPayment(Guid transactionId)
-        {
-            _logger.LogInformation("Retrieving previous transation with id {transactionId}", transactionId);
+        [HttpGet("{transactionId}")]
+        public async Task<ActionResult<PaymentDto>> GetPayment(Guid transactionId) =>
+            //_logger.LogInformation("Retrieving previous transation with id {transactionId}", transactionId);
 
-            var paymentEntity = await _repositoryWrapper.PaymentGateways.GetPayment(transactionId);
+            //var paymentEntity = await _repositoryWrapper.PaymentGateways.GetPayment(transactionId);
 
-            if (paymentEntity == null)
-            {
-                _logger.LogWarning("GetPayment({transactionId}) NOT FOUND", transactionId);
-                return NotFound();
-            }
+            //if (paymentEntity == null)
+            //{
+            //    _logger.LogWarning("GetPayment({transactionId}) NOT FOUND", transactionId);
+            //    return NotFound();
+            //}
 
-            return Ok(_mapper.Map<PaymentDto>(paymentEntity));
-        }
+            //return Ok(_mapper.Map<PaymentDto>(paymentEntity));
+
+            await this.Mediator.Send(new GetAPaymentQuery { TransactionId = transactionId});
+
 
         [HttpGet]
-        public async Task<IEnumerable<PaymentDto>> GetAllPayments() 
-            => await Mediator.Send(new GetPaymentsQuery());
+        public async Task<ActionResult<PaginatedList<PaymentDto>>> GetAllPayments([FromQuery] GetPaymentsWithPaginationQuery query) 
+            => await this.Mediator.Send(query);
 
 
         /// <summary>

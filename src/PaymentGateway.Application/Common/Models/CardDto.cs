@@ -1,5 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using AutoMapper;
+using PaymentGateway.Application.Common.Helpers;
 using PaymentGateway.Application.Common.Mappings;
 using PaymentGateway.Domain.Entities;
 
@@ -27,5 +29,21 @@ namespace PaymentGateway.Application.Common.Models
         //[Required]
         //[RegularExpression(@"^\d{3}$", ErrorMessage = "CVV should be three numeric characters")]
         public string CVV { get; set; }
+
+        public virtual void Mapping(Profile profile) 
+        {
+            profile.CreateMap<Domain.Entities.Card, Models.CardDto>()
+                .ForMember(
+                    dest => dest.Expiry,
+                    opt => opt.MapFrom(src => $"{src.ExpiryMonth}/{src.ExpiryYear}"));
+
+            profile.CreateMap<Models.CardDto, Domain.Entities.Card>()
+                .ForMember(
+                    dest => dest.ExpiryMonth,
+                    opt => opt.MapFrom(src => src.Expiry.ExpiryDateArray()[0]))
+                .ForMember(
+                    dest => dest.ExpiryYear,
+                    opt => opt.MapFrom(src => src.Expiry.ExpiryDateArray()[1]));
+        }
     }
 }
