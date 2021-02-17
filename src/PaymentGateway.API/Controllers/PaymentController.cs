@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using PaymentGateway.Application.Common.Helpers;
 using PaymentGateway.Application.Common.Interfaces;
 using PaymentGateway.Application.Common.Models;
+using PaymentGateway.Application.Payments.Commands.CreateAPayment;
 using PaymentGateway.Application.Payments.Queries.GetPayment;
 using PaymentGateway.Application.Payments.Queries.GetPayments;
 using PaymentGateway.Domain.Entities;
@@ -20,26 +21,8 @@ namespace PaymentGateway.API.Controllers
     [Authorize]
     public class PaymentController : ApiControllerBase
     {
-        private readonly IRepositoryWrapper _repositoryWrapper;
-        private readonly IMapper _mapper;
-        private readonly ILogger<PaymentController> _logger;
-        private readonly IConfiguration _config;
-
-        public PaymentController(IRepositoryWrapper repositoryWrapper, IMapper mapper,
-                                    ILogger<PaymentController> logger, IConfiguration config)
-        {
-            _repositoryWrapper = repositoryWrapper ??
-                throw new ArgumentNullException(nameof(repositoryWrapper));
-            _mapper = mapper ??
-                throw new ArgumentNullException(nameof(mapper));
-            _logger = logger ??
-                throw new ArgumentNullException(nameof(logger));
-            _config = config ??
-                throw new ArgumentNullException(nameof(config));
-        }
-
         /// <summary>
-        /// Retrieving a payment's details.
+        /// Retrieves a single payment's details.
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -50,24 +33,25 @@ namespace PaymentGateway.API.Controllers
         /// <param name="transactionId"></param>
         /// <returns>Retrievs a previous payment</returns>
         /// <response code="200">Returns the stored payment</response>
-        /// <response code="404">If the payment is null</response>
+        /// <response code="404">If the payment not found</response>
         [HttpGet("{transactionId}")]
         public async Task<ActionResult<PaymentDto>> GetPayment(Guid transactionId) =>
-            //_logger.LogInformation("Retrieving previous transation with id {transactionId}", transactionId);
-
-            //var paymentEntity = await _repositoryWrapper.PaymentGateways.GetPayment(transactionId);
-
-            //if (paymentEntity == null)
-            //{
-            //    _logger.LogWarning("GetPayment({transactionId}) NOT FOUND", transactionId);
-            //    return NotFound();
-            //}
-
-            //return Ok(_mapper.Map<PaymentDto>(paymentEntity));
-
             await this.Mediator.Send(new GetAPaymentQuery { TransactionId = transactionId});
 
 
+        /// <summary>
+        /// Retrieves all payments details.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET  /api/payment
+        ///
+        /// </remarks>
+        /// <param name="query"></param>
+        /// <returns>Retrievs a previous payment</returns>
+        /// <response code="200">Returns all stored payments</response>
+        /// <response code="404">If there is not payment history</response>
         [HttpGet]
         public async Task<ActionResult<PaginatedList<PaymentDto>>> GetAllPayments([FromQuery] GetPaymentsWithPaginationQuery query) 
             => await this.Mediator.Send(query);
@@ -94,35 +78,7 @@ namespace PaymentGateway.API.Controllers
         /// <response code="200">Returns the bank response with id and status</response>
         /// <response code="404">If the bank response is null</response>
         [HttpPost]
-        public async Task<IActionResult> PostCardPayment(CardDto card)
-        {
-            var cardEntity = _mapper.Map<Domain.Entities.Card>(card);
-
-            string cardLastDigits = card.Number.Substring(card.Number.Length - 4);
-            _logger.LogInformation("Making a payment with card ending with {cardLastDigits}", cardLastDigits);
-
-            var bankEndpoint = _config.GetValue<string>("Endpoints:Bank");
-
-            var bankResponse = await _repositoryWrapper.PaymentGateways.GetBankResponse(cardEntity, bankEndpoint);
-
-            if (bankResponse == null)
-            {
-                _logger.LogWarning("Did not receive a response from the bank with card ending with {cardLastDigits}", cardLastDigits);
-                return NotFound();
-            }
-
-            _repositoryWrapper.Cards.Add(cardEntity);
-
-            Payment paymentEntity = new Payment()
-            {
-                Id = bankResponse.Id,
-                Status = bankResponse.Status,
-                Card = cardEntity
-            };
-
-            _repositoryWrapper.PaymentGateways.Add(paymentEntity);
-
-            return Ok(bankResponse);
-        }
+        public async Task<ActionResult<BankResponse>> PostCardPayment(CardDto card) =>
+            await this.Mediator.Send(new CreateAPaymentCommand { Card = card });
     }
 }

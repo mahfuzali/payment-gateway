@@ -33,11 +33,12 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password123
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - Endpoints__Bank=http://banksimulator:80/api/FakeBank
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
       - ~/.aspnet/https:/https:ro
 
-  postgresdb: # this is used as the host in your connection string 
+  postgresdb: 
     image: postgres
     container_name: 'postgres_container'
     environment:
@@ -45,9 +46,9 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=payment
     volumes:
-      - pgdata:/var/lib/postgresql/data # this is where your data persists in the container
+      - pgdata:/var/lib/postgresql/data 
     ports:
-      - 5432:5432 # use this port in your connection string
+      - 5432:5432 
 
   pgadmin:
     image: dpage/pgadmin4

@@ -19,7 +19,7 @@ namespace PaymentGateway.Application.Common.Models
 
         //[DataType(DataType.Currency)]
         //[Range(0, Double.PositiveInfinity, ErrorMessage = "Amount cannot be negative")]
-        [Required]
+        //[Required]
         public decimal Amount { get; set; }
 
         //[Required]

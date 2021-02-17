@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using PaymentGateway.API.Filters;
 using PaymentGateway.Application;
 using PaymentGateway.Infrastructure;
 
@@ -56,6 +58,10 @@ namespace PaymentGateway.API
             services.AddControllers();
 
             services.AddHttpClient();
+
+            services.AddControllersWithViews(options =>
+                options.Filters.Add<ApiExceptionFilterAttribute>())
+                    .AddFluentValidation();
 
             services.AddSwaggerGen(options =>
             {

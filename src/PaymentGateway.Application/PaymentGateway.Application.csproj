@@ -13,6 +13,7 @@
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
   </ItemGroup>
 
@@ -21,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Payments\Commands\" />
+    <Folder Include="Payments\Commands\DeleteAPayment\" />
+    <Folder Include="Payments\Commands\UpdateAPayment\" />
     <Folder Include="Payments\EventHandlers\" />
   </ItemGroup>
 

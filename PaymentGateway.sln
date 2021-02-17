@@ -17,11 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentGateway.Application"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentGateway.Infrastructure", "src\PaymentGateway.Infrastructure\PaymentGateway.Infrastructure.csproj", "{A8BF244E-437B-4C36-A135-1AFD1C20B800}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.IntegrationTests", "tests\PaymentGateway.IntegrationTests\PaymentGateway.IntegrationTests.csproj", "{62BCD573-B8F6-4742-92D4-198DAD58A042}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentGateway.IntegrationTests", "tests\PaymentGateway.IntegrationTests\PaymentGateway.IntegrationTests.csproj", "{62BCD573-B8F6-4742-92D4-198DAD58A042}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.UnitTests", "tests\PaymentGateway.UnitTests\PaymentGateway.UnitTests.csproj", "{983235E8-D36A-4C2B-AD52-A27E842B2775}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentGateway.UnitTests", "tests\PaymentGateway.UnitTests\PaymentGateway.UnitTests.csproj", "{983235E8-D36A-4C2B-AD52-A27E842B2775}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.FunctionalTests", "tests\PaymentGateway.FunctionalTests\PaymentGateway.FunctionalTests.csproj", "{DED28ABE-7B0E-4A1A-A229-50EDF27B98BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentGateway.FunctionalTests", "tests\PaymentGateway.FunctionalTests\PaymentGateway.FunctionalTests.csproj", "{DED28ABE-7B0E-4A1A-A229-50EDF27B98BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
