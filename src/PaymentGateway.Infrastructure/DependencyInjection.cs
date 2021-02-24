@@ -11,11 +11,23 @@ namespace PaymentGateway.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<PaymentDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("PaymentDbConnection"),
-                        b => b.MigrationsAssembly(typeof(PaymentDbContext).Assembly.FullName)));
+            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+            {
+                services.AddDbContext<PaymentDbContext>(options =>
+                    options.UseInMemoryDatabase("PaymentDb"));
 
-            services.AddDbContext<UserDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("UserDbConnection"),
-                        b => b.MigrationsAssembly(typeof(UserDbContext).Assembly.FullName)));
+                services.AddDbContext<PaymentDbContext>(options =>
+                    options.UseInMemoryDatabase("UserDb"));
+            }
+            else
+            {
+                services.AddDbContext<PaymentDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("PaymentDbConnection"),
+                            b => b.MigrationsAssembly(typeof(PaymentDbContext).Assembly.FullName)));
+
+                services.AddDbContext<UserDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("UserDbConnection"),
+                            b => b.MigrationsAssembly(typeof(UserDbContext).Assembly.FullName)));
+            }
+
 
             services.AddScoped<IPaymentDbContext>(provider => provider.GetService<PaymentDbContext>());
             services.AddScoped<IUserDbContext>(provider => provider.GetService<UserDbContext>());

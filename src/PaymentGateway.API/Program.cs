@@ -29,15 +29,21 @@ namespace PaymentGateway.API
                 {
                     var appDbContext = services.GetRequiredService<PaymentDbContext>();
 
-                    appDbContext.Database.EnsureDeleted();
-                    appDbContext.Database.Migrate();
+                    if (appDbContext.Database.IsNpgsql())
+                    {
+                        appDbContext.Database.EnsureDeleted();
+                        appDbContext.Database.Migrate();
+                    }
 
                     await DbContextSeed.SeedPaymentDataAsync(appDbContext);
 
                     var userDbContext = services.GetRequiredService<UserDbContext>();
 
-                    userDbContext.Database.EnsureDeleted();
-                    userDbContext.Database.Migrate();
+                    if (appDbContext.Database.IsNpgsql())
+                    {
+                        userDbContext.Database.EnsureDeleted();
+                        userDbContext.Database.Migrate();
+                    }
 
                     await DbContextSeed.SeedUserDataAsync(userDbContext);
                 }

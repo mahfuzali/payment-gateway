@@ -7,6 +7,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,27 +15,22 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PaymentGateway.API.Filters;
 using PaymentGateway.Application;
+using PaymentGateway.Application.Payments.Commands.CreateAPayment;
 using PaymentGateway.Infrastructure;
+using PaymentGateway.Infrastructure.Persistence;
 
 namespace PaymentGateway.API
 {
     public class Startup
     {
-        private readonly IWebHostEnvironment _env;
-
-        public Startup(IConfiguration configuration, IWebHostEnvironment env)
-        {
-            Configuration = configuration;
-            _env = env;
-        }
+        public Startup(IConfiguration configuration) => this.Configuration = configuration;
 
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplication();
-
-            services.AddInfrastructure(Configuration);
+            services.AddInfrastructure(this.Configuration);
 
             services.AddAuthentication(options =>
             {
@@ -55,13 +51,25 @@ namespace PaymentGateway.API
                     };
                 });
 
-            services.AddControllers();
-
-            services.AddHttpClient();
-
+            //services.AddControllers();
             services.AddControllersWithViews(options =>
                 options.Filters.Add<ApiExceptionFilterAttribute>())
                     .AddFluentValidation();
+
+            services.AddHttpClient();
+
+            //services.AddControllersWithViews(options =>
+            //    options.Filters.Add<ApiExceptionFilterAttribute>())
+            //        .AddFluentValidation(opt =>
+            //        {
+            //            opt.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            //        });
+
+            // Customise default API behaviour
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             services.AddSwaggerGen(options =>
             {
@@ -118,13 +126,6 @@ namespace PaymentGateway.API
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseSwagger();
-
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment API");
-            });
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -133,6 +134,13 @@ namespace PaymentGateway.API
             {
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment API");
+            });
 
             app.UseHttpsRedirection();
 
